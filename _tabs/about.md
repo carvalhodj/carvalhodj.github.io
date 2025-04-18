@@ -9,3 +9,5 @@ order: 1
 
 > Testando.
 {: .prompt-info}
+
+Here will be the content of the file `_tabs/about.md`.
