@@ -17,6 +17,7 @@ _site/
 # Details at https://github.com/github/pages-gem/issues/768
 Gemfile.lock
 
-
+# Hugo specific ignores
 /public/
 /resources/_gen/
+.hugo_build.lock
