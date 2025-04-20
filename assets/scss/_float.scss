@@ -10,9 +10,14 @@
     display: inline-block;
     width: 3rem;
     height: 3rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: $lightbulb-color;
     background-color: $alt-fg-color;
+    display: flex; /* Flexbox for centering */
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering */
+    user-select: none; /* Prevent text selection */
+    cursor: pointer;
     border-radius: 0.2rem;
     opacity: 0.5;
     transition: all 0.25s ease-in;
