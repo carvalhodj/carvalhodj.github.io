@@ -1,4 +1,4 @@
-baseURL = '/'
+baseURL = 'https://danielcarvalho.net/'
 languageCode = 'en-uk'
 title = 'Daniel Carvalho Website'
 theme = 'hugo-coder'
