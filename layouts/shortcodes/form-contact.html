@@ -1,4 +1,4 @@
-<form class="contact-form-wrapper" accept-charset="UTF-8" action="{{ .Get "action" }}" method="POST" role="form">
+<form id="contact-form" class="contact-form-wrapper" accept-charset="UTF-8" action="{{ .Get "action" }}" method="POST" role="form">
     <input type="hidden" name="access_key" value="4a63bdbf-4307-4c22-8a53-9c5c1324341b">
     <label for="name">{{i18n "contact_name"}}</label>
     <input type="text" id="name" name="name" required placeholder="{{i18n "contact_name_placeholder"}}" aria-labelledby="name"/>
@@ -9,5 +9,21 @@
     <label for="message">{{i18n "contact_message_title"}}</label>
     <textarea id="message" name="message" aria-labelledby="message"></textarea>
     <br>
+    <div class="h-captcha" data-captcha="true"></div>
+    <script src="https://web3forms.com/client/script.js" async defer></script>
     <input type="submit" value="{{i18n "contact_button"}}"/>
+    <script>
+        const form = document.getElementById('contact-form');
+        
+        form.addEventListener('submit', function(e) {
+        
+            const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
+        
+            if (!hCaptcha) {
+                e.preventDefault();
+                alert({{i18n "contact_captcha"}});
+                return;
+            }
+        });
+        </script>
 </form>

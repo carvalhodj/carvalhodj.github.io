@@ -80,3 +80,6 @@ other = "Mensagem"
 
 [contact_button]
 other = "Enviar"
+
+[contact_captcha]
+other = "Favor marcar a caixa de verificação"

@@ -80,3 +80,6 @@ other = "Message"
 
 [contact_button]
 other = "Send"
+
+[contact_captcha]
+other = "Please fill out captcha field"
