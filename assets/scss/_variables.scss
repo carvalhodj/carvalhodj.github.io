@@ -22,8 +22,8 @@ Menlo,
 monospace;
 
 // Colors
-$bg-color: #fafafa !default;
-$fg-color: #212121 !default;
+$bg-color: #F9F6EE !default;
+$fg-color: #373838 !default;
 $alt-bg-color: #e0e0e0 !default;
 $alt-fg-color: #000 !default;
 $darker-alt-bg-color: #ccc !default;
@@ -31,7 +31,7 @@ $link-color: #1565c0 !default;
 $lightbulb-color: #ffdd00 !default;
 
 // Dark colors
-$bg-color-dark: #212121 !default;
+$bg-color-dark: #373838 !default;
 $fg-color-dark: #dadada !default;
 $alt-bg-color-dark: #424242 !default;
 $alt-fg-color-dark: #dadada !default;
@@ -61,6 +61,14 @@ $bg-color-notice-warning-content: #ffca281a !default;
 $fg-color-notice-error-icon: #e53935 !default;
 $bg-color-notice-error-title: #f443361a !default;
 $bg-color-notice-error-content: #ef53501a !default;
+
+// Form contact colors
+$contact-form-dark-bg-color: #373838 !default;
+$contact-form-input-dark-bg-color: teal !default;
+$contact-form-bg-color: #F9F6EE !default;
+$contact-form-input-bg-color: teal !default;
+$contact-form-dark-placeholder-color: #cecece !default;
+$contact-form-dark-textarea-bg-color: grey !default;
 
 // Path to FontAwesome TTF/WOFF files.
 $fa-font-path: "../fonts" !default;

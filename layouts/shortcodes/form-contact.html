@@ -1,0 +1,13 @@
+<form class="contact-form-wrapper" accept-charset="UTF-8" action="{{ .Get "action" }}" method="POST" role="form">
+    <input type="hidden" name="access_key" value="4a63bdbf-4307-4c22-8a53-9c5c1324341b">
+    <label for="name">{{i18n "contact_name"}}</label>
+    <input type="text" id="name" name="name" required placeholder="{{i18n "contact_name_placeholder"}}" aria-labelledby="name"/>
+    <br>
+    <label for="email">{{i18n "contact_email"}}</label>
+    <input type="email" id="email" name="email" required placeholder="{{i18n "contact_email_placeholder"}}" aria-labelledby="email"/>
+    <br>
+    <label for="message">{{i18n "contact_message_title"}}</label>
+    <textarea id="message" name="message" aria-labelledby="message"></textarea>
+    <br>
+    <input type="submit" value="{{i18n "contact_button"}}"/>
+</form>

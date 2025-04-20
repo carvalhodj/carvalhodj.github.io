@@ -1,0 +1,45 @@
+@mixin form_contact_dark{
+.contact-form-wrapper {
+    width: 75%;
+    padding: 30px;
+    background: $bg-color-dark
+}
+
+::placeholder {
+    color: $contact-form-dark-placeholder-color;
+}
+
+.contact-form-wrapper input[type=text],
+input[type=email],
+textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 5px;
+    background: $contact-form-dark-textarea-bg-color;
+}
+
+.contact-form-wrapper textarea {
+    height: 20vh;
+}
+
+input[type=submit] {
+    font-family: Fira Code, Monaco, Consolas, Ubuntu Mono, monospace;
+    font-size: 1.25em;
+    width: 20%;
+    padding: 10px;
+}
+
+input[type=submit]:hover {
+    background-color: $contact-form-input-dark-bg-color;
+}
+}
+
+body.colorscheme-dark {
+    @include form_contact_dark();
+  }
+  
+  body.colorscheme-auto {
+    @media (prefers-color-scheme: dark) {
+      @include form_contact_dark();
+    }
+  }
