@@ -185,7 +185,7 @@ url = "https://www.linkedin.com/in/carvalhodj/"
 languageName = ":uk:"
 
 [[languages.en.menu.main]]
-name = "About"
+name = "About me"
 weight = 1
 url = "about/"
 
@@ -215,7 +215,7 @@ description = "Website de Daniel Carvalho"
 keywords = "blog,desenvolvedor,pessoal"
 
 [[languages.pt-br.menu.main]]
-name = "Sobre"
+name = "Sobre mim"
 weight = 1
 url = "about/"
 
