@@ -17,7 +17,7 @@ textarea {
 }
 
 input[type=submit] {
-    font-family: Helvetica, Fira Code, Monaco, Consolas, Ubuntu Mono, monospace;
+    font-family: $font-family;
     font-size: 1.25em;
     width: 100%;
     padding: 10px;
