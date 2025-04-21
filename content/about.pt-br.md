@@ -5,7 +5,6 @@ slug = "about"
 
 Sou desenvolvedor de software com mais de 5 anos de experiência, trabalhando em projetos de diversos contextos, como sistemas embarcados, visão computacional e mobile.  
 
-
 No ambiente profissional, trabalho com metodologias ágeis, tal como scrum e kanban, utilzando ferramentas como Jira, Azure Boards e Trello.  
 
 [Curriculum Vitae](https://drive.proton.me/urls/5ZXRFQ3NP0#DxeoXUviIh8J)
@@ -28,7 +27,19 @@ No ambiente profissional, trabalho com metodologias ágeis, tal como scrum e kan
 
 - Criação de nova versão de projeto, com mudanças no tipo de protocolo de transferência de dados;
 - Desenvolvimento de interface gráfica (GUI) e protocolo simples para receber inputs de outro sistema;
-- Projetos com **microcontroladores ARM** e testes com plataformas de desenvolvimento;
+- Projetos com **microcontroladores ARM** e testes com plataformas de desenvolvimento;  
+
+## Conhecimentos
+
+- **Linguagens:** C, C++, Kotlin, Python, Shell Script, Java, Rust.
+- **Frameworks:** Qt, KMP, Pandas, Tensorflow, Keras, Jetpack Compose.
+- **Outros:** Linux, Plataformas de hardware, Eletrônica, Protocolos de comunicação.
+
+## Formação
+
+- Mestrado em Informática Aplicada pela [Universidade Federal Rural de Pernambuco](https://www.ufrpe.br) (2024);
+- Bacharelado em Sistemas de Informação pela [Universidade Federal Rural de Pernambuco](https://www.ufrpe.br) (2019);
+- Bacharelado em Administração pela [Universidade de Pernambuco](https://www.upe.br) (2013);
 
 ## Outras experiências
 

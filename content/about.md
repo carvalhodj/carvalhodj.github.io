@@ -5,7 +5,6 @@ slug = "about"
 
 I am a software developer with over 5 years of experience, working on projects in various domains such as embedded systems, computer vision, and mobile applications.  
 
-
 In professional environments, I work with agile methodologies like Scrum and Kanban, using tools such as Jira, Azure Boards, and Trello.  
 
 [Curriculum Vitae](https://drive.proton.me/urls/ZEAKRB0P7C#8QVS4L0u3lgc)
@@ -15,19 +14,31 @@ In professional environments, I work with agile methodologies like Scrum and Kan
 #### Stone Co (2021 - Present)  
 - Migrated **Android** applications to multiplatform using **Kotlin Multiplatform (KMP)**;  
 - Developed CI/CD scripts to enhance efficiency;  
-- Tested new hardware, maintaining communication with suppliers for questions and fixes.  
+- Tested new hardware, maintaining communication with suppliers for questions and fixes;  
 
 #### Serttel (2021)  
 - Modified the activation of road vehicle detectors;  
 - Fixed remote communication with older versions of traffic lights;  
-- Conducted tests with OCR systems.  
+- Conducted tests with OCR systems;  
 
 #### FRT Tecnologia Eletrônica (2017 - 2021)  
 - Developed a new version of a project with changes in the data transfer protocol type;  
 - Created a graphical user interface (GUI) and a simple protocol to receive inputs from another system;  
-- Worked on projects with **ARM microcontrollers** and tested development platforms.  
+- Worked on projects with **ARM microcontrollers** and tested development platforms;  
 
-## Other Experiences  
+## Knowledge
+
+- **Languages:** C, C++, Kotlin, Python, Shell Script, Java, Rust;
+- **Frameworks:** Qt, KMP, Pandas, Tensorflow, Keras, Jetpack Compose;
+- **Others:** Linux, Hardware platforms, Electronics, Communication Protocols;  
+
+## Education
+
+- MSc in Applied Informatics from the [Federal Rural University of Pernambuco](https://www.ufrpe.br/) (2024);
+- Bachelor's degree in Information Systems from the [Federal Rural University of Pernambuco](https://www.ufrpe.br/) (2019);
+- Bachelor's degree in Business Administration from the [University of Pernambuco](https://www.upe.br/) (2013);  
+
+## Other experiences  
 
 A hardware and open-source software enthusiast, I regularly attend related events and have also been a speaker at some, presenting technologies such as **MQTT**, **Docker**, and **Linux**.  
 
