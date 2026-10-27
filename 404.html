@@ -3,6 +3,7 @@ layout: default
 title: Page not found
 permalink: /404.html
 sitemap: false
+search: false
 ---
 <section class="bios-screen" aria-labelledby="bios-title">
   <h1 id="bios-title">ERROR 404 — PAGE NOT FOUND</h1>
@@ -16,6 +17,8 @@ sitemap: false
     if (path) path.textContent = window.location.pathname;
     document.addEventListener("keydown", function (event) {
       if (event.metaKey || event.ctrlKey || event.altKey || event.key === "Tab" || event.key === "Shift") return;
+      // Leave the search shortcut and typing inside the search box alone.
+      if (event.key === "/" || (event.target.closest && event.target.closest("dialog, input"))) return;
       window.location.href = "{{ '/' | relative_url }}";
     });
   })();

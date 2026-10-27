@@ -1,0 +1,16 @@
+<dialog class="search-dialog" data-search data-index="{{ '/search.json' | relative_url }}" aria-label="Search the site">
+  <div class="search-box">
+    <label class="search-prompt" for="search-input"><span class="ps1" aria-hidden="true">$</span> grep</label>
+    <input id="search-input" class="search-input" type="search" placeholder="posts, projects, pages…"
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go"
+           role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+    <button class="search-close" type="button" data-search-close aria-label="Close search"><kbd>esc</kbd></button>
+  </div>
+  <p class="search-status" data-search-status role="status"></p>
+  <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="Search results"></ul>
+  <footer class="search-foot" aria-hidden="true">
+    <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+    <span><kbd>↵</kbd> open</span>
+    <span><kbd>esc</kbd> close</span>
+  </footer>
+</dialog>

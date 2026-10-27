@@ -29,6 +29,7 @@ retro:
   default_font: miranda             # plex | helvetica | inter | dm-sans | miranda
   font_toggle: false              # show the typeface switcher in the header
   scanlines: true                # faint CRT scanlines (dark mode only)
+  search: true                   # search button + ⌘K / Ctrl+K / "/" shortcuts
   cursor: underscore                 # blinking cursor: column (█) | bar (|) | underscore (_)
   prompt:                        # header brand: <user>@<host>:~$ <cursor>
     user: daniel

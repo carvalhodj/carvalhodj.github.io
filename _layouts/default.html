@@ -10,5 +10,8 @@
     {{ content }}
   </main>
   {% include footer.html %}
+  {%- unless site.retro.search == false %}
+  {% include search.html %}
+  {%- endunless %}
 </body>
 </html>

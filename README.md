@@ -56,6 +56,7 @@ retro:
   default_font: plex         # plex | helvetica | inter | dm-sans | miranda
   font_toggle: true          # set false once you've decided on a typeface
   scanlines: true            # faint CRT lines in dark mode
+  search: true               # site search (⌘K / Ctrl+K / "/")
   cursor: column             # column (█) | bar (|) | underscore (_)
 social:
   - { name: github, url: https://github.com/you }
@@ -76,6 +77,14 @@ Projects with `featured: true` appear on the home page.
 Post tags are collected on `/tags/` (`tags.md`, `layout: tags`). Selecting a
 tag, or following a tag link from a post, filters the page to that tag's posts.
 The URL looks like `/tags/#reliability`, so filtered views can be shared.
+
+### Search
+
+The search button (or <kbd>⌘K</kbd> on macOS, <kbd>Ctrl</kbd>+<kbd>K</kbd> on
+Windows/Linux, or <kbd>/</kbd> anywhere) opens a search over all posts,
+projects and pages. `search.json` is generated at build time and fetched the
+first time search opens; matching ignores case and accents. Add
+`search: false` to a page's front matter to leave it out of the index.
 
 ## Using it as a gem theme
 

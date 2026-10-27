@@ -19,6 +19,15 @@
     </nav>
 
     <div class="toggles">
+      {%- unless site.retro.search == false %}
+      <button class="toggle search-button" type="button" data-search-open aria-label="Search" aria-haspopup="dialog" title="Search">
+        <svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="6.75" cy="6.75" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10.25 10.25 14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+        </svg>
+        <kbd class="search-kbd" data-search-kbd></kbd>
+      </button>
+      {%- endunless %}
       {%- unless site.retro.prompt.font_toggle == false %}
       <button class="toggle" type="button" data-toggle="prompt-font" aria-label="Switch prompt font" title="Switch prompt font">
         <span class="toggle-glyph toggle-glyph--mono" aria-hidden="true">&gt;_</span>

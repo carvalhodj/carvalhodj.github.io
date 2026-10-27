@@ -191,6 +191,262 @@
     fromHash();
   }
 
+  // --- Search ----------------------------------------------------------------
+  // Loads /search.json on first open. Matching is case- and accent-insensitive,
+  // and every word of the query must appear in the title, tags or text.
+
+  var IS_MAC = /mac|iphone|ipad|ipod/i.test(
+    (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || ""
+  );
+  var MARKS = /[̀-ͯ]/g;
+  var MAX_RESULTS = 10;
+
+  function fold(text) {
+    return text.normalize("NFD").replace(MARKS, "").toLowerCase();
+  }
+
+  // Folded text plus, for every folded character, its index in the original,
+  // so matches found in folded text can be highlighted in the original.
+  function foldWithMap(text) {
+    var out = "", map = [];
+    for (var i = 0; i < text.length; i++) {
+      var folded = fold(text[i]);
+      for (var j = 0; j < folded.length; j++) {
+        out += folded[j];
+        map.push(i);
+      }
+    }
+    return { text: out, map: map };
+  }
+
+  function escapeHtml(text) {
+    return String(text).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function queryTerms(query) {
+    return fold(query).split(/\s+/).filter(Boolean);
+  }
+
+  function highlight(text, terms) {
+    var folded = foldWithMap(text);
+    var ranges = [];
+    terms.forEach(function (term) {
+      var from = 0, at;
+      while ((at = folded.text.indexOf(term, from)) !== -1) {
+        ranges.push([folded.map[at], folded.map[at + term.length - 1] + 1]);
+        from = at + term.length;
+      }
+    });
+    ranges.sort(function (a, b) { return a[0] - b[0]; });
+
+    var html = "", last = 0;
+    ranges.forEach(function (range) {
+      var start = Math.max(range[0], last);
+      if (range[1] <= start) return;
+      html += escapeHtml(text.slice(last, start)) + "<mark>" + escapeHtml(text.slice(start, range[1])) + "</mark>";
+      last = range[1];
+    });
+    return html + escapeHtml(text.slice(last));
+  }
+
+  // A short excerpt around the first match in the body text.
+  function snippet(doc, terms) {
+    var text = doc.content || "";
+    var at = -1;
+    terms.some(function (term) { return (at = doc.body.text.indexOf(term)) !== -1; });
+    if (at === -1) return escapeHtml(text.slice(0, 140)) + (text.length > 140 ? "…" : "");
+
+    var start = doc.body.map[Math.max(0, at - 50)];
+    var end = doc.body.map[Math.min(doc.body.text.length, at + 110) - 1] + 1;
+    if (start > 0) start = text.lastIndexOf(" ", start) + 1;
+    var space = text.indexOf(" ", end);
+    if (space !== -1 && space - end < 20) end = space;
+
+    return (start > 0 ? "…" : "") + highlight(text.slice(start, end), terms) + (end < text.length ? "…" : "");
+  }
+
+  function score(doc, terms) {
+    var total = 0;
+    for (var i = 0; i < terms.length; i++) {
+      var term = terms[i];
+      var points = (doc.titleKey.indexOf(term) !== -1 ? 10 : 0) +
+        (doc.tagKey.indexOf(term) !== -1 ? 5 : 0) +
+        (doc.body.text.indexOf(term) !== -1 ? 1 : 0);
+      if (!points) return 0;
+      total += points;
+    }
+    return total;
+  }
+
+  function search(docs, terms) {
+    return docs
+      .map(function (doc) { return { doc: doc, score: score(doc, terms) }; })
+      .filter(function (hit) { return hit.score > 0; })
+      .sort(function (a, b) {
+        return b.score - a.score || String(b.doc.date || "").localeCompare(String(a.doc.date || ""));
+      })
+      .slice(0, MAX_RESULTS)
+      .map(function (hit) { return hit.doc; });
+  }
+
+  function isTyping(target) {
+    return target && (target.isContentEditable || /^(input|textarea|select)$/i.test(target.tagName));
+  }
+
+  function setupSearch() {
+    var dialog = document.querySelector("[data-search]");
+    if (!dialog || typeof dialog.showModal !== "function") return;
+
+    var input = dialog.querySelector(".search-input");
+    var list = dialog.querySelector("[data-search-results]");
+    var status = dialog.querySelector("[data-search-status]");
+    var docs = null, loading = null, results = [], active = -1, returnFocus = null;
+
+    var shortcut = IS_MAC ? "⌘K" : "Ctrl K";
+    document.querySelectorAll("[data-search-kbd]").forEach(function (kbd) {
+      kbd.textContent = shortcut;
+    });
+    document.querySelectorAll("[data-search-open]").forEach(function (button) {
+      button.setAttribute("title", "Search (" + shortcut + ")");
+      button.setAttribute("aria-keyshortcuts", IS_MAC ? "Meta+K" : "Control+K");
+      button.addEventListener("click", open);
+    });
+
+    function load() {
+      if (!loading) {
+        loading = fetch(dialog.getAttribute("data-index"))
+          .then(function (response) {
+            if (!response.ok) throw new Error(response.status);
+            return response.json();
+          })
+          .then(function (items) {
+            docs = items.map(function (item) {
+              item.titleKey = fold(item.title || "");
+              item.tagKey = fold((item.tags || []).join(" "));
+              item.body = foldWithMap(item.content || "");
+              return item;
+            });
+          })
+          .catch(function () {
+            loading = null; // allow a retry on next open
+            status.textContent = "Search index could not be loaded.";
+          });
+      }
+      return loading;
+    }
+
+    function open() {
+      if (dialog.open) return;
+      returnFocus = document.activeElement;
+      dialog.showModal();
+      input.select();
+      render();
+      load().then(render);
+    }
+
+    function close() {
+      if (dialog.open) dialog.close();
+      restoreFocus();
+    }
+
+    // Never leave focus in the hidden input, or "/" would stop working.
+    function restoreFocus() {
+      if (!dialog.contains(document.activeElement)) return;
+      if (returnFocus && returnFocus !== document.body && document.contains(returnFocus)) returnFocus.focus();
+      else document.activeElement.blur();
+    }
+
+    function render() {
+      if (!docs) {
+        if (!status.textContent) status.textContent = "Loading…";
+        return;
+      }
+      var query = input.value.trim();
+      var terms = queryTerms(query);
+      results = terms.length ? search(docs, terms) : [];
+      active = results.length ? 0 : -1;
+
+      list.innerHTML = results.map(function (doc, i) {
+        var meta = escapeHtml(doc.type) + (doc.date ? " · " + escapeHtml(doc.date) : "");
+        return '<li role="option" id="search-option-' + i + '">' +
+          '<a href="' + escapeHtml(doc.url) + '" tabindex="-1">' +
+          '<span class="search-meta">' + meta + "</span>" +
+          '<span class="search-title">' + highlight(doc.title, terms) + "</span>" +
+          '<span class="search-snippet">' + snippet(doc, terms) + "</span>" +
+          "</a></li>";
+      }).join("");
+
+      if (!query) status.textContent = "Type to search " + docs.length + " posts, projects and pages.";
+      else if (!results.length) status.textContent = "No matches for “" + query + "”.";
+      else status.textContent = "";
+
+      input.setAttribute("aria-expanded", results.length > 0 ? "true" : "false");
+      updateActive();
+    }
+
+    function updateActive() {
+      list.querySelectorAll('[role="option"]').forEach(function (option, i) {
+        option.setAttribute("aria-selected", i === active ? "true" : "false");
+      });
+      if (active < 0) {
+        input.removeAttribute("aria-activedescendant");
+        return;
+      }
+      input.setAttribute("aria-activedescendant", "search-option-" + active);
+      document.getElementById("search-option-" + active).scrollIntoView({ block: "nearest" });
+    }
+
+    input.addEventListener("input", render);
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        if (!results.length) return;
+        event.preventDefault();
+        var step = event.key === "ArrowDown" ? 1 : -1;
+        active = (active + step + results.length) % results.length;
+        updateActive();
+      } else if (event.key === "Enter" && active >= 0) {
+        event.preventDefault();
+        window.location.href = results[active].url;
+      }
+    });
+
+    list.addEventListener("mousemove", function (event) {
+      var option = event.target.closest('[role="option"]');
+      if (!option) return;
+      var index = Number(option.id.replace("search-option-", ""));
+      if (index !== active) {
+        active = index;
+        updateActive();
+      }
+    });
+
+    dialog.querySelector("[data-search-close]").addEventListener("click", close);
+
+    dialog.addEventListener("close", restoreFocus); // Esc closes natively
+
+    // A click on the backdrop lands on the <dialog> element itself.
+    dialog.addEventListener("click", function (event) {
+      if (event.target === dialog) close();
+    });
+
+    // ⌘K / Ctrl+K toggles search anywhere; "/" opens it when not typing.
+    document.addEventListener("keydown", function (event) {
+      if ((event.metaKey || event.ctrlKey) && !event.altKey && !event.shiftKey &&
+          event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        if (dialog.open) close();
+        else open();
+      } else if (event.key === "/" && !dialog.open && !isTyping(event.target) &&
+                 !event.metaKey && !event.ctrlKey && !event.altKey) {
+        event.preventDefault();
+        open();
+      }
+    });
+  }
+
   // --- Boot ------------------------------------------------------------------
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -204,5 +460,6 @@
     enhanceCodeBlocks();
     watchHeader();
     markActiveTag();
+    setupSearch();
   });
 })();
