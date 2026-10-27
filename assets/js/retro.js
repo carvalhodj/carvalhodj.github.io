@@ -150,6 +150,19 @@
     });
   }
 
+  // --- Sticky header ---------------------------------------------------------
+
+  function watchHeader() {
+    var header = document.querySelector(".site-header");
+    if (!header) return;
+
+    var update = function () {
+      header.classList.toggle("is-scrolled", window.scrollY > 8);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+  }
+
   // --- Boot ------------------------------------------------------------------
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -161,5 +174,6 @@
     });
 
     enhanceCodeBlocks();
+    watchHeader();
   });
 })();
