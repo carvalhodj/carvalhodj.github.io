@@ -1,0 +1,40 @@
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title }}, home">
+      {%- assign prompt_user = site.retro.prompt.user | default: site.title | default: 'user' %}
+      {%- unless site.retro.prompt.user %}{% assign prompt_user = prompt_user | slugify %}{% endunless %}
+      <span class="brand-user">{{ prompt_user }}{% if site.retro.prompt.host %}@{{ site.retro.prompt.host }}{% endif %}</span>
+      <span class="brand-sep">:</span><span class="brand-path">~</span><span class="brand-sigil">$</span>
+      {%- include cursor.html %}
+    </a>
+
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        {%- for item in site.data.navigation %}
+        <li>
+          <a href="{{ item.url | relative_url }}"{% if page.url contains item.url %} aria-current="page"{% endif %}>{{ item.title }}</a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </nav>
+
+    <div class="toggles">
+      {%- unless site.retro.prompt.font_toggle == false %}
+      <button class="toggle" type="button" data-toggle="prompt-font" aria-label="Switch prompt font" title="Switch prompt font">
+        <span class="toggle-glyph toggle-glyph--mono" aria-hidden="true">&gt;_</span>
+        <span class="toggle-value" data-label="prompt-font"></span>
+      </button>
+      {%- endunless %}
+      {%- unless site.retro.font_toggle == false %}
+      <button class="toggle" type="button" data-toggle="font" aria-label="Switch typeface" title="Switch typeface">
+        <span class="toggle-glyph" aria-hidden="true">Aa</span>
+        <span class="toggle-value" data-label="font"></span>
+      </button>
+      {%- endunless %}
+      <button class="toggle" type="button" data-toggle="theme" aria-label="Switch color theme" title="Switch color theme">
+        <span class="toggle-icon" aria-hidden="true"></span>
+        <span class="toggle-value" data-label="theme"></span>
+      </button>
+    </div>
+  </div>
+</header>

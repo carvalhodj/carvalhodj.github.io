@@ -1,0 +1,137 @@
+// Design tokens. Every color in the theme comes from these custom properties,
+// so a palette change only ever touches this file.
+
+@mixin light {
+  color-scheme: light;
+
+  --bg: #f3eee3;            // bone
+  --bg-soft: #ebe4d6;
+  --bg-code: #ece5d7;
+  --fg: #2d2925;
+  --fg-soft: #4b453f;
+  --muted: #7b7168;
+  --line: #dbd1c1;
+  --line-strong: #c4b8a5;
+
+  --accent: #8a5a3b;        // saddle brown
+  --accent-2: #6b645d;      // warm gray
+  --accent-3: #a26b45;      // clay
+  --link: var(--accent);
+  --ps1: var(--accent);
+  --cursor: var(--accent);
+
+  --selection-bg: #dfcdb3;
+  --selection-fg: var(--fg);
+
+  // Neon is a dark-mode-only effect.
+  --glow-pink: none;
+  --glow-blue: none;
+  --glow-box: none;
+  --rule: linear-gradient(90deg, var(--line-strong), var(--line-strong));
+  --sky: none;
+  --scanline: transparent;
+
+  --syn-comment: #9c9184;
+  --syn-keyword: #9a4a2c;
+  --syn-string: #6c6a32;
+  --syn-number: #a5612e;
+  --syn-function: #5b4636;
+  --syn-type: #7d5a3c;
+  --syn-builtin: #8a5a3b;
+  --syn-attr: #7b6b5b;
+  --syn-tag: #9a4a2c;
+  --syn-operator: #6b645d;
+  --syn-punct: #8d8378;
+  --syn-inserted: #5f6b2f;
+  --syn-deleted: #9a3a2c;
+}
+
+@mixin dark {
+  color-scheme: dark;
+
+  --bg: #0c0b1d;            // midnight over Ocean Drive
+  --bg-soft: #14122e;
+  --bg-code: #110f27;
+  --fg: #e9e6f7;
+  --fg-soft: #c6c1df;
+  --muted: #8d87ae;
+  --line: #24204a;
+  --line-strong: #353066;
+
+  --accent: #ff4fa3;        // hot pink
+  --accent-2: #3dd6ff;      // electric cyan
+  --accent-3: #b28dff;      // sunset violet
+  --link: var(--accent);
+  --ps1: var(--accent-2);
+  --cursor: var(--accent);
+
+  --selection-bg: rgba(255, 79, 163, 0.35);
+  --selection-fg: #fff;
+
+  --glow-pink: 0 0 4px rgba(255, 79, 163, 0.55), 0 0 14px rgba(255, 79, 163, 0.25);
+  --glow-blue: 0 0 4px rgba(61, 214, 255, 0.5), 0 0 14px rgba(61, 214, 255, 0.2);
+  --glow-box: 0 0 0 1px rgba(61, 214, 255, 0.06), 0 0 28px -10px rgba(61, 214, 255, 0.35);
+  --rule: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent-2) 80%, transparent);
+  --sky: radial-gradient(1100px 380px at 50% -220px, rgba(178, 141, 255, 0.13), transparent 70%),
+         radial-gradient(700px 260px at 85% -160px, rgba(255, 79, 163, 0.08), transparent 70%);
+  --scanline: rgba(255, 255, 255, 0.022);
+
+  --syn-comment: #6e6896;
+  --syn-keyword: #ff5fae;
+  --syn-string: #7fe6f7;
+  --syn-number: #ffa260;
+  --syn-function: #8fb5ff;
+  --syn-type: #b28dff;
+  --syn-builtin: #3dd6ff;
+  --syn-attr: #c9a6ff;
+  --syn-tag: #ff5fae;
+  --syn-operator: #c6c1df;
+  --syn-punct: #8d87ae;
+  --syn-inserted: #7ee0a1;
+  --syn-deleted: #ff6b8b;
+}
+
+:root {
+  --font-sans: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-bios: "IBM BIOS", "Fira Code", ui-monospace, monospace;
+  --font-prompt: var(--font-mono);
+
+  --measure: 44rem;
+  --gutter: clamp(1rem, 5vw, 2rem);
+  --radius: 3px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  @include light;
+}
+
+:root[data-font="helvetica"] {
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+:root[data-font="inter"] {
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+:root[data-font="dm-sans"] {
+  --font-sans: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+:root[data-font="miranda"] {
+  --font-sans: "Miranda Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+:root[data-prompt-font="bios"] {
+  --font-prompt: var(--font-bios);
+}
+
+:root[data-theme="dark"] {
+  @include dark;
+}
+
+// No JavaScript: follow the operating system.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    @include dark;
+  }
+}

@@ -1,0 +1,22 @@
+---
+layout: default
+title: Page not found
+permalink: /404.html
+sitemap: false
+---
+<section class="bios-screen" aria-labelledby="bios-title">
+  <h1 id="bios-title">ERROR 404 — PAGE NOT FOUND</h1>
+  <p>The requested address could not be resolved:<br><code data-path>/</code></p>
+  <p>Check the URL for typos, or the page may have moved.</p>
+  <p><a href="{{ '/' | relative_url }}">Press any key to return home</a>{% include cursor.html %}</p>
+</section>
+<script>
+  (function () {
+    var path = document.querySelector("[data-path]");
+    if (path) path.textContent = window.location.pathname;
+    document.addEventListener("keydown", function (event) {
+      if (event.metaKey || event.ctrlKey || event.altKey || event.key === "Tab" || event.key === "Shift") return;
+      window.location.href = "{{ '/' | relative_url }}";
+    });
+  })();
+</script>

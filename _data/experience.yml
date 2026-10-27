@@ -1,0 +1,19 @@
+- period: 2022 — now
+  role: Principal Engineer
+  company: Northwind Payments
+  summary: Leading the ledger platform team. Moved settlement from nightly batch to an event-sourced pipeline processing 40M transactions a day.
+
+- period: 2017 — 2022
+  role: Staff Engineer
+  company: Orbital Logistics
+  summary: Designed the routing service and the internal developer platform used by 30+ teams.
+
+- period: 2013 — 2017
+  role: Senior Software Engineer
+  company: Lumen Analytics
+  summary: Built the query engine behind the self-serve analytics product.
+
+- period: 2009 — 2013
+  role: Software Engineer
+  company: Various
+  summary: Agencies and startups. Lots of PHP, some Perl, and a first taste of distributed systems.

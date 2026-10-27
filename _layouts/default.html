@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+<head>
+  {%- include head.html %}
+</head>
+<body{% unless site.retro.scanlines == false %} class="has-scanlines"{% endunless %}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  {% include header.html %}
+  <main id="main" class="wrap site-main">
+    {{ content }}
+  </main>
+  {% include footer.html %}
+</body>
+</html>

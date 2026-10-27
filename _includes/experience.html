@@ -1,0 +1,14 @@
+{%- assign jobs = include.items | default: site.data.experience %}
+<ol class="timeline">
+  {%- for job in jobs %}
+  <li class="timeline-item">
+    <span class="row-meta">{{ job.period }}</span>
+    <div>
+      <p class="timeline-role">{{ job.role }} <span class="timeline-at">@ {{ job.company }}</span></p>
+      {%- if job.summary %}
+      <p class="timeline-summary">{{ job.summary }}</p>
+      {%- endif %}
+    </div>
+  </li>
+  {%- endfor %}
+</ol>

@@ -1,0 +1,40 @@
+// CRT scanlines. Transparent in light mode, barely-there in dark mode.
+.has-scanlines::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--scanline) 0,
+    var(--scanline) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
+
+  .theme-switching,
+  .theme-switching * {
+    transition: none !important;
+  }
+}
+
+@media print {
+  .site-header .toggles,
+  .site-nav,
+  .code-bar,
+  .has-scanlines::after {
+    display: none;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+}

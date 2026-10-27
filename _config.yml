@@ -1,0 +1,79 @@
+# ---------------------------------------------------------------------------
+# Site
+# ---------------------------------------------------------------------------
+title: Daniel Carvalho
+description: >-
+  Senior software engineer. I build distributed systems and developer tools,
+  and write about the craft of making software that lasts.
+lang: en
+url: ""                          # e.g. https://example.com
+baseurl: ""
+
+author:
+  name: Daniel Carvalho
+  email: hello@example.com
+
+# Links rendered as [name] in the hero and footer.
+social:
+  - name: github
+    url: https://github.com/
+  - name: linkedin
+    url: https://www.linkedin.com/
+  - name: email
+    url: mailto:hello@example.com
+
+# ---------------------------------------------------------------------------
+# Retro theme options
+# ---------------------------------------------------------------------------
+retro:
+  default_font: miranda             # plex | helvetica | inter | dm-sans | miranda
+  font_toggle: false              # show the typeface switcher in the header
+  scanlines: true                # faint CRT scanlines (dark mode only)
+  cursor: underscore                 # blinking cursor: column (█) | bar (|) | underscore (_)
+  prompt:                        # header brand: <user>@<host>:~$ <cursor>
+    user: daniel
+    host: 
+    font: fira                   # fira | bios (IBM BIOS bitmap)
+    font_toggle: false            # show the prompt font switcher in the header
+
+# ---------------------------------------------------------------------------
+# Content
+# ---------------------------------------------------------------------------
+permalink: /blog/:year/:title/
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope: { path: "", type: posts }
+    values: { layout: post }
+  - scope: { path: "", type: projects }
+    values: { layout: project }
+  - scope: { path: "", type: pages }
+    values: { layout: page }
+
+# ---------------------------------------------------------------------------
+# Build
+# ---------------------------------------------------------------------------
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+sass:
+  style: compressed
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - claude-prompt.md
+  - README.md
+  - LICENSE
+  - "*.gemspec"
+  - Gemfile
+  - Gemfile.lock
+  - vendor

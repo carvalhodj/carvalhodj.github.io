@@ -1,0 +1,31 @@
+---
+layout: default
+---
+<section class="hero">
+  <p class="prompt-line" aria-hidden="true"><span class="ps1">$</span> whoami</p>
+  <h1 class="hero-title">{{ page.headline | default: site.author.name | default: site.title }}</h1>
+  {%- if page.role %}
+  <p class="hero-role">{{ page.role }}</p>
+  {%- endif %}
+  <div class="hero-intro">
+    {{ content }}
+  </div>
+  {% include social.html %}
+</section>
+
+{%- assign featured = site.projects | where: "featured", true | sort: "year" | reverse %}
+{%- if featured.size > 0 %}
+<section class="section">
+  {% include section-head.html title="Selected work" link="/projects/" link_text="all work" %}
+  {% include project-list.html projects=featured %}
+</section>
+{%- endif %}
+
+{%- assign limit = page.posts_limit | default: 5 %}
+{%- if site.posts.size > 0 %}
+<section class="section">
+  {% include section-head.html title="Writing" link="/blog/" link_text="all posts" %}
+  {% assign recent = site.posts | slice: 0, limit %}
+  {% include post-list.html posts=recent %}
+</section>
+{%- endif %}

@@ -1,0 +1,9 @@
+<ul class="rows">
+  {%- for post in include.posts %}
+  <li class="row row--post">
+    <time class="row-meta" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+    <a class="row-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    <span class="row-aside">{% include reading-time.html content=post.content %}</span>
+  </li>
+  {%- endfor %}
+</ul>

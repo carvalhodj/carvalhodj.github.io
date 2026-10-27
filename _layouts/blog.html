@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">{{ page.title | default: "Blog" }}</h1>
+    {%- if page.description %}
+    <p class="page-lede">{{ page.description }}</p>
+    {%- endif %}
+  </header>
+
+  {{ content }}
+
+  {%- assign years = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+  {%- for year in years %}
+  <section class="section section--tight">
+    {% include section-head.html title=year.name %}
+    {% include post-list.html posts=year.items %}
+  </section>
+  {%- endfor %}
+</section>

@@ -1,0 +1,18 @@
+---
+layout: default
+---
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">{{ page.title | default: "Work" }}</h1>
+    {%- if page.description %}
+    <p class="page-lede">{{ page.description }}</p>
+    {%- endif %}
+  </header>
+
+  {{ content }}
+
+  {%- assign projects = site.projects | sort: "year" | reverse %}
+  <section class="section section--tight">
+    {% include project-list.html projects=projects %}
+  </section>
+</section>

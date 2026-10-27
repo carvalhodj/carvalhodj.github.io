@@ -1,0 +1,12 @@
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <p class="eof" aria-hidden="true">EOF</p>
+      {% include social.html feed=true %}
+      <p class="colophon">
+        &copy; {{ 'now' | date: '%Y' }} {{ site.author.name | default: site.title }}.
+        Set in <span data-label="font-name"></span> &amp; Fira Code.
+      </p>
+    </div>
+  </div>
+</footer>
