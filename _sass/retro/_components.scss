@@ -92,12 +92,32 @@
   letter-spacing: -0.05em;
 }
 
-.toggle-icon {
-  width: 0.7rem;
-  height: 0.7rem;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+// Icon-only toggle: a square button.
+.toggle--icon {
+  justify-content: center;
+  width: 1.875rem;
+  padding: 0;
+}
+
+// Shows the current theme: moon in dark mode, sun in light mode.
+.theme-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.theme-icon--moon,
+[data-theme="dark"] .theme-icon--sun {
+  display: none;
+}
+
+[data-theme="dark"] .theme-icon--moon {
+  display: block;
+}
+
+// Without JavaScript the theme follows the OS.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-icon--sun { display: none; }
+  :root:not([data-theme]) .theme-icon--moon { display: block; }
 }
 
 .toggle-value {
@@ -109,8 +129,6 @@
 }
 
 // Labels come from CSS so they are right on first paint.
-[data-label="theme"]::after { content: "light"; }
-[data-theme="dark"] [data-label="theme"]::after { content: "dark"; }
 [data-label="prompt-font"]::after { content: "fira"; }
 [data-prompt-font="bios"] [data-label="prompt-font"]::after { content: "bios"; }
 [data-label="font"]::after { content: "plex"; }
