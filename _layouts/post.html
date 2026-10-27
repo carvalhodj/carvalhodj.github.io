@@ -10,7 +10,7 @@ layout: default
       <span class="sep" aria-hidden="true">/</span>
       <span>{% include reading-time.html content=content %} read</span>
       {%- for tag in page.tags %}
-      <span class="tag">#{{ tag }}</span>
+      <a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>
       {%- endfor %}
     </p>
     {%- if page.description %}

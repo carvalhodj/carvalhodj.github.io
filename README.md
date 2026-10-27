@@ -73,6 +73,10 @@ social:
 
 Projects with `featured: true` appear on the home page.
 
+Post tags are collected on `/tags/` (`tags.md`, `layout: tags`). Selecting a
+tag, or following a tag link from a post, filters the page to that tag's posts.
+The URL looks like `/tags/#reliability`, so filtered views can be shared.
+
 ## Using it as a gem theme
 
 The `retro-theme.gemspec` packages `_layouts`, `_includes`, `_sass` and

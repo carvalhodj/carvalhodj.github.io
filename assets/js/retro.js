@@ -163,6 +163,34 @@
     update();
   }
 
+  // --- Tags page -------------------------------------------------------------
+  // CSS does the filtering via :target; this only marks the active chip.
+
+  function markActiveTag() {
+    var chips = document.querySelectorAll(".tag-chip");
+    if (!chips.length) return;
+
+    var mark = function (id) {
+      var active = id && document.getElementById(id) ? id : "all";
+      chips.forEach(function (chip) {
+        if (chip.getAttribute("href") === "#" + active) chip.setAttribute("aria-current", "true");
+        else chip.removeAttribute("aria-current");
+      });
+    };
+    var fromHash = function () {
+      mark(decodeURIComponent(window.location.hash.slice(1)));
+    };
+
+    // Mark on click right away; hashchange covers back/forward navigation.
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        mark(chip.getAttribute("href").slice(1));
+      });
+    });
+    window.addEventListener("hashchange", fromHash);
+    fromHash();
+  }
+
   // --- Boot ------------------------------------------------------------------
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -175,5 +203,6 @@
 
     enhanceCodeBlocks();
     watchHeader();
+    markActiveTag();
   });
 })();

@@ -1,7 +1,7 @@
 ---
 title: Lessons from fifteen years of on-call
 description: Fewer alerts, better runbooks, and why the pager should be boring.
-tags: [operations, leadership]
+tags: [operations, leadership, reliability]
 ---
 
 I took my first pager shift in 2010. It was a literal pager. Since then I've

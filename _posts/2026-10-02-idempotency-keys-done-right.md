@@ -1,7 +1,7 @@
 ---
 title: Idempotency keys, done right
 description: Retries are inevitable. Charging a customer twice is not.
-tags: [distributed-systems, apis]
+tags: [distributed-systems, apis, reliability]
 ---
 
 Every network call can fail in three ways: it succeeds, it fails, or you have
