@@ -19,6 +19,10 @@
     animation: none;
   }
 
+  .back-to-top {
+    transform: none;
+  }
+
   .theme-switching,
   .theme-switching * {
     transition: none !important;
@@ -27,6 +31,7 @@
 
 @media print {
   .site-header .toggles,
+  .back-to-top,
   .site-nav,
   .code-bar,
   .has-scanlines::after {

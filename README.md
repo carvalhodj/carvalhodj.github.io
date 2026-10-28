@@ -57,6 +57,7 @@ retro:
   font_toggle: true          # set false once you've decided on a typeface
   scanlines: true            # faint CRT lines in dark mode
   search: true               # site search (⌘K / Ctrl+K / "/")
+  back_to_top: true          # floating button to scroll back up
   cursor: column             # column (█) | bar (|) | underscore (_)
 social:
   - { name: github, url: https://github.com/you }

@@ -10,6 +10,9 @@
     {{ content }}
   </main>
   {% include footer.html %}
+  {%- unless site.retro.back_to_top == false %}
+  {% include back-to-top.html %}
+  {%- endunless %}
   {%- unless site.retro.search == false %}
   {% include search.html %}
   {%- endunless %}

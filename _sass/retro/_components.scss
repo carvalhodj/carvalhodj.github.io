@@ -590,3 +590,35 @@ a.tag:hover {
     text-underline-offset: 0.3em;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Back to top
+// ---------------------------------------------------------------------------
+// Hidden until retro.js adds .is-visible after scrolling down a screen.
+.back-to-top {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 1.5rem;
+  z-index: 40;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s,
+    color 0.15s var(--ease), border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+.back-to-top-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}

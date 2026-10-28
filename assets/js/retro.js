@@ -163,6 +163,28 @@
     update();
   }
 
+  // --- Back to top -----------------------------------------------------------
+  // Shows the button once the page is scrolled past one screen.
+
+  function setupBackToTop() {
+    var button = document.querySelector("[data-back-to-top]");
+    if (!button) return;
+
+    var update = function () {
+      button.classList.toggle("is-visible", window.scrollY > window.innerHeight);
+    };
+    window.addEventListener("scroll", update, { passive: true });
+    update();
+
+    button.addEventListener("click", function () {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+      // The button hides at the top, so hand keyboard focus back to the header.
+      var brand = document.querySelector(".brand");
+      if (brand) brand.focus({ preventScroll: true });
+    });
+  }
+
   // --- Tags page -------------------------------------------------------------
   // CSS does the filtering via :target; this only marks the active chip.
 
@@ -519,6 +541,7 @@
 
     enhanceCodeBlocks();
     watchHeader();
+    setupBackToTop();
     markActiveTag();
     setupSearch();
     setupContactForm();

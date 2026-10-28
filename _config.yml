@@ -40,6 +40,7 @@ retro:
   font_toggle: false              # show the typeface switcher in the header
   scanlines: true                # faint CRT scanlines (dark mode only)
   search: true                   # search button + ⌘K / Ctrl+K / "/" shortcuts
+  back_to_top: true              # floating "back to top" button after scrolling
   cursor: underscore                 # blinking cursor: column (█) | bar (|) | underscore (_)
   prompt:                        # header brand: <user>@<host>:~$ <cursor>
     user: daniel
