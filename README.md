@@ -106,6 +106,19 @@ projects and pages. `search.json` is generated at build time and fetched the
 first time search opens; matching ignores case and accents. Add
 `search: false` to a page's front matter to leave it out of the index.
 
+### Favicon
+
+Put your icons in `assets/favicon/`. The head links each of these only when
+the file exists, so add whichever you have:
+
+| File                   | Used for                              |
+| ---------------------- | ------------------------------------- |
+| `favicon.ico`          | Older browsers, 32×32                 |
+| `favicon.svg`          | Modern browsers, sharp at any size    |
+| `favicon.png`          | PNG fallback if you have no SVG       |
+| `apple-touch-icon.png` | iOS home screen, 180×180              |
+| `site.webmanifest`     | Android / install icons               |
+
 ## Using it as a gem theme
 
 The `retro-theme.gemspec` packages `_layouts`, `_includes`, `_sass` and
