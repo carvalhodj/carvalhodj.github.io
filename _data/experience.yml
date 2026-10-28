@@ -1,14 +1,14 @@
 - period: 2021 — 2026
   role: Software Engineer III
   company: Stone Co.
-  summary: Developed battery benchmark for Linux POS machines. Changed stack to Kotlin and was involved in architectural decisions and development for apps in Android POS machines.
+  summary: Desenvolvi um benchmark de bateria para máquinas POS Linux. Migrei a stack para Kotlin e participei de decisões de arquitetura e do desenvolvimento de apps para máquinas POS Android.
 
 - period: 2021 — 2021
-  role: Embedded Developer
+  role: Desenvolvedor de Sistemas Embarcados
   company: Serttel
-  summary: Fixed communication issues with remote traffic lights and implemented new sensor mode for vehicle detection in street.
+  summary: Corrigi problemas de comunicação com semáforos remotos e implementei um novo modo de sensor para detecção de veículos na rua.
 
 - period: 2017 — 2021
-  role: Jr Software Engineer
+  role: Engenheiro de Software Jr
   company: FRT Tecnologia Eletrônica
-  summary: Embedded systems for public transportation. Worked on several projects, like led panels, controllers and remote configuration update.
+  summary: Sistemas embarcados para transporte público. Trabalhei em vários projetos, como painéis de LED, controladores e atualização remota de configuração.

@@ -1,0 +1,14 @@
+- period: 2021 — 2026
+  role: Software Engineer III
+  company: Stone Co.
+  summary: Developed battery benchmark for Linux POS machines. Changed stack to Kotlin and was involved in architectural decisions and development for apps in Android POS machines.
+
+- period: 2021 — 2021
+  role: Embedded Developer
+  company: Serttel
+  summary: Fixed communication issues with remote traffic lights and implemented new sensor mode for vehicle detection in street.
+
+- period: 2017 — 2021
+  role: Jr Software Engineer
+  company: FRT Tecnologia Eletrônica
+  summary: Embedded systems for public transportation. Worked on several projects, like led panels, controllers and remote configuration update.

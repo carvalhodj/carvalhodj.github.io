@@ -5,22 +5,25 @@ title: Daniel Carvalho
 description: >-
   Senior software engineer. I build distributed systems and developer tools,
   and write about the craft of making software that lasts.
-lang: en                       # default language, served from the site root
+lang: pt-BR                    # default language, served from the site root
 url: "https://carvalhodj.github.io"                          # e.g. https://example.com
 baseurl: ""
 
 # Languages for the header switcher. `path` is the URL prefix for that
 # language's pages; the default language (`lang`) has none. Interface strings
 # live in _data/i18n.yml. Remove all but one entry to hide the switcher.
+# `regions`: visitors from these countries get this language. `fallback`: the
+# language for visitors from anywhere else.
 languages:
-  - code: en
-    label: EN
-    flag: uk
   - code: pt-BR
     label: PT
     flag: br
-    path: /pt
-    regions: [BR]                # visitors from these countries get this language
+    regions: [BR]
+  - code: en
+    label: EN
+    flag: uk
+    path: /en
+    fallback: true
 
 author:
   name: Daniel Carvalho
@@ -79,13 +82,13 @@ defaults:
     values: { layout: project }
   - scope: { path: "", type: pages }
     values: { layout: page }
-  # Brazilian Portuguese: pages in pt/, posts in _posts/pt/, projects in _projects/pt/.
-  - scope: { path: "pt" }
-    values: { lang: pt-BR }
-  - scope: { path: "_posts/pt" }
-    values: { lang: pt-BR, permalink: "/pt/blog/:year/:title/" }
-  - scope: { path: "_projects/pt" }
-    values: { lang: pt-BR, permalink: "/pt/projects/:name/" }
+  # English: pages in en/, posts in _posts/en/, projects in _projects/en/.
+  - scope: { path: "en" }
+    values: { lang: en }
+  - scope: { path: "_posts/en" }
+    values: { lang: en, permalink: "/en/blog/:year/:title/" }
+  - scope: { path: "_projects/en" }
+    values: { lang: en, permalink: "/en/projects/:name/" }
 
 # ---------------------------------------------------------------------------
 # Build

@@ -110,30 +110,31 @@ first time search opens; matching ignores case and accents. Add
 
 ### Languages
 
-The site ships in English (at `/`) and Brazilian Portuguese (at `/pt/`). The
-header shows the flag of the other language and links to the same page in
-it, or to that language's home when the page has no translation.
+The site ships in Brazilian Portuguese (the default, at `/`) and English (at
+`/en/`). The header shows the flag of the other language and links to the
+same page in it, or to that language's home when the page has no
+translation.
 
 ```yaml
-lang: en                 # default language, no URL prefix
+lang: pt-BR              # default language, no URL prefix
 languages:
-  - { code: en,    label: EN, flag: uk }
-  - { code: pt-BR, label: PT, flag: br, path: /pt }
+  - { code: pt-BR, label: PT, flag: br, regions: [BR] }
+  - { code: en,    label: EN, flag: uk, path: /en, fallback: true }
 ```
 
-| What                 | English                  | Portuguese                     |
-| -------------------- | ------------------------ | ------------------------------ |
-| Pages                | `about.md` → `/about/`   | `pt/about.md` → `/pt/about/`   |
-| Posts                | `_posts/`                | `_posts/pt/`                   |
-| Projects             | `_projects/`             | `_projects/pt/`                |
-| Experience/education | `_data/experience.yml`   | `_data/pt-BR/experience.yml`   |
-| Interface strings    | `_data/i18n.yml` → `en`  | `_data/i18n.yml` → `pt-BR`     |
+| What                 | Portuguese (default)       | English                        |
+| -------------------- | -------------------------- | ------------------------------ |
+| Pages                | `about.md` → `/about/`     | `en/about.md` → `/en/about/`   |
+| Posts                | `_posts/`                  | `_posts/en/`                   |
+| Projects             | `_projects/`               | `_projects/en/`                |
+| Experience/education | `_data/experience.yml`     | `_data/en/experience.yml`      |
+| Interface strings    | `_data/i18n.yml` → `pt-BR` | `_data/i18n.yml` → `en`        |
 
-Files under those Portuguese folders get `lang: pt-BR` automatically
-(`defaults` in `_config.yml`). A translation is found when it has the same URL
-under `/pt` (same filename), or when both versions share a `ref:` in front
-matter (useful when the post titles, and so the URLs, differ). Lists, tags,
-older/newer links and search only show content in the language being read.
+Files under the English folders get `lang: en` automatically (`defaults` in
+`_config.yml`). A translation is found when it has the same URL under `/en`
+(same filename), or when both versions share a `ref:` in front matter (useful
+when the post titles, and so the URLs, differ). Lists, tags, older/newer
+links and search only show content in the language being read.
 
 To drop a language, remove its entry from `languages`; with one entry the
 switcher is hidden.
@@ -141,16 +142,17 @@ switcher is hidden.
 **Automatic language.** Visitors are sent to the version for their region:
 Brazil gets Portuguese, everyone else English. A static site can't see the
 visitor's IP, so the browser guesses the country from its time zone (any
-Brazilian zone), then from the browser language's region (`pt-BR`). Once a
-visitor picks a language with the flag, that choice is remembered and wins.
-Search engine crawlers are never redirected, and pages without a translation
-stay put. Map more countries with `regions: [BR, ...]` on a language, or turn
-it off with `retro.auto_language: false`.
+Brazilian zone), then from the browser language's region (`pt-BR`). A
+language's `regions` lists the countries that get it; everyone else gets the
+language marked `fallback: true`. Once a visitor picks a language with the
+flag, that choice is remembered and wins. Search engine crawlers are never
+redirected, and pages without a translation stay put. Turn it off with
+`retro.auto_language: false`.
 
 **404 page.** The host serves the root `404.html` for every missing address,
-so it switches to `pt/404.html` when the address starts with `/pt/`, or when
-the visitor's language is Portuguese. The missing address stays in the
-address bar. Both use the text from `not_found_*` in `_data/i18n.yml`.
+so it switches to `en/404.html` when the address starts with `/en/`, or when
+the visitor's language is English. The missing address stays in the address
+bar. Both use the text from `not_found_*` in `_data/i18n.yml`.
 
 ### Favicon
 

@@ -1,6 +1,6 @@
 ---
 layout: blog
 title: Blog
-description: Notes about the things I am working.
+description: Notas sobre as coisas em que estou trabalhando.
 permalink: /blog/
 ---

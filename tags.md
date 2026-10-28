@@ -1,6 +1,6 @@
 ---
 layout: tags
 title: Tags
-description: Every topic I've written about. Pick one to filter the posts.
+description: Todos os assuntos sobre os quais escrevi. Escolha um para filtrar os posts.
 permalink: /tags/
 ---

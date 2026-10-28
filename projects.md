@@ -1,6 +1,6 @@
 ---
 layout: projects
-title: Work
-description: Selected projects I have worked or created, newest first.
+title: Projetos
+description: Projetos selecionados em que trabalhei ou que criei, dos mais recentes aos mais antigos.
 permalink: /projects/
 ---

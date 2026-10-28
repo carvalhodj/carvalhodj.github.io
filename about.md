@@ -1,23 +1,23 @@
 ---
-title: About
-description: Software Engineer, occasional writer, collector of mechanical keyboards and game controllers.
+title: Sobre
+description: Engenheiro de software, escritor ocasional, colecionador de teclados mecânicos e controles de videogame.
 permalink: /about/
 ---
 
-I've been writing software professionally since 2017. Started working on embedded systems with some other features, like computer vision, and developing better UI for the projects using open source libraries, like GTK. 
+Trabalho com desenvolvimento de software profissionalmente desde 2017. Comecei com sistemas embarcados, incluindo recursos como visão computacional, e desenvolvendo interfaces melhores para os projetos usando bibliotecas de código aberto, como GTK.
 
-After a few years got experience with POS machines working in a fintech company, developing applications for C/C++ and Android machines. Got involved in architectural decisions when some projects were to be refactored or rebooted.
+Alguns anos depois, ganhei experiência com máquinas POS trabalhando em uma fintech, desenvolvendo aplicações em C/C++ e para máquinas Android. Participei de decisões de arquitetura quando alguns projetos foram refatorados ou recomeçados.
 
-## Experience
+## Experiência
 
 {% include experience.html %}
 
-## Education
+## Formação
 
 {% include education.html %}
 
-## Elsewhere
+## Em outros lugares
 
-- Code on [GitHub](https://github.com/carvalhodj) and [Codeberg](https://codeberg.org/carvalhodj)
-- Work history on [LinkedIn](https://www.linkedin.com/in/carvalhodj)
-- Or send a message through the [contact form](/contact/)
+- Código no [GitHub](https://github.com/carvalhodj) e no [Codeberg](https://codeberg.org/carvalhodj)
+- Histórico profissional no [LinkedIn](https://www.linkedin.com/in/carvalhodj)
+- Ou envie uma mensagem pelo [formulário de contato](/contact/)

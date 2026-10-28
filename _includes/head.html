@@ -4,13 +4,21 @@
 <meta name="theme-color" content="#f3eee3">
 {% include prefs-script.html %}
 {%- if site.languages.size > 1 %}
+{%- comment %} x-default: what search engines show everyone not matched by a language, the `fallback` one. {% endcomment %}
+{%- assign fallback_lang = site.languages | where: "fallback", true | first %}
 {%- for other in site.languages %}
 {%- if other.code == lang %}
 <link rel="alternate" hreflang="{{ lang }}" href="{{ page.url | absolute_url }}">
+{%- if other.code == fallback_lang.code %}
+<link rel="alternate" hreflang="x-default" href="{{ page.url | absolute_url }}">
+{%- endif %}
 {%- else %}
 {%- include translation-url.html to=other.code %}
 {%- if translation_found %}
 <link rel="alternate" hreflang="{{ other.code }}" href="{{ translation_url | absolute_url }}">
+{%- if other.code == fallback_lang.code %}
+<link rel="alternate" hreflang="x-default" href="{{ translation_url | absolute_url }}">
+{%- endif %}
 {%- endif %}
 {%- endif %}
 {%- endfor %}

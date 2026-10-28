@@ -3,12 +3,12 @@
   A language picked with the header flag (retro:lang) wins. Otherwise the
   visitor's country is guessed, first from the time zone (Brazil only), then
   from the browser language's region, and matched against `regions` in
-  `languages`; everyone else gets the default language. It only redirects
-  when the page has a translation (an hreflang link above), and never for
-  crawlers, so search engines index every language.
+  `languages`; everyone else gets the `fallback` language (or the default).
+  It only redirects when the page has a translation (an hreflang link
+  above), and never for crawlers, so search engines index every language.
 
   On the 404 page (`not_found: true`) the missing address decides first:
-  /pt/anything gets the Portuguese 404. The host serves one 404 for every
+  /en/anything gets the English 404. The host serves one 404 for every
   missing URL, so the address travels along as ?path= and is put back.
 {% endcomment %}
 {%- assign auto_language = true %}
@@ -43,7 +43,8 @@
           return !!match;
         });
       }
-      target = "{{ default_lang }}";
+      {%- assign fallback = site.languages | where: "fallback", true | first %}
+      target = "{{ fallback.code | default: default_lang }}";
       regions.forEach(function (lang) {
         if (lang.regions.indexOf(country) !== -1) target = lang.code;
       });
