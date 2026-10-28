@@ -78,6 +78,26 @@ Post tags are collected on `/tags/` (`tags.md`, `layout: tags`). Selecting a
 tag, or following a tag link from a post, filters the page to that tag's posts.
 The URL looks like `/tags/#reliability`, so filtered views can be shared.
 
+### Contact
+
+`/contact/` (`contact.md`, `layout: contact`) has a contact form and lists
+every entry in `social` (with its `handle`). The form is sent by
+[Web3Forms](https://web3forms.com) (free plan) and protected by hCaptcha, a
+hidden honeypot field and required-field checks.
+
+1. Create an access key at web3forms.com (it is public and safe to commit).
+2. Set it in `_config.yml`:
+   ```yaml
+   contact:
+     access_key: "your-key"
+     subject: New message from the website
+   ```
+3. In the Web3Forms dashboard, enable hCaptcha for that form.
+
+Until the key is set, the page shows a "not configured" notice. hCaptcha shows
+a "localhost detected" warning during local development; it goes away on
+your real domain.
+
 ### Search
 
 The search button (or <kbd>⌘K</kbd> on macOS, <kbd>Ctrl</kbd>+<kbd>K</kbd> on

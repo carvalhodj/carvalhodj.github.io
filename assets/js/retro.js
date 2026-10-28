@@ -447,6 +447,66 @@
     });
   }
 
+  // --- Contact form ----------------------------------------------------------
+  // Submits to Web3Forms in the background. Without JavaScript the form posts
+  // normally and Web3Forms redirects back with ?sent=1.
+
+  function setupContactForm() {
+    var form = document.querySelector("[data-contact-form]");
+    if (!form) return;
+
+    var status = form.querySelector("[data-contact-status]");
+    var button = form.querySelector('button[type="submit"]');
+
+    function show(state, message) {
+      status.setAttribute("data-state", state);
+      status.textContent = message;
+    }
+
+    if (/[?&]sent=1\b/.test(window.location.search)) {
+      show("ok", "Message sent. Thanks, I'll get back to you soon.");
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      if (!form.elements.access_key.value) {
+        show("error", "The contact form isn't configured yet.");
+        return;
+      }
+      var captcha = form.querySelector('[name="h-captcha-response"]');
+      if (captcha && !captcha.value) {
+        show("error", "Please complete the captcha first.");
+        return;
+      }
+
+      button.disabled = true;
+      show("pending", "Sending…");
+
+      fetch(form.action, {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form)
+      })
+        .then(function (response) {
+          return response.json().then(function (json) {
+            if (!response.ok || !json.success) throw new Error(json.message || "Request failed");
+          });
+        })
+        .then(function () {
+          form.reset();
+          show("ok", "Message sent. Thanks, I'll get back to you soon.");
+        })
+        .catch(function (error) {
+          show("error", "Couldn't send: " + error.message + ". Please try again or email me directly.");
+        })
+        .then(function () {
+          button.disabled = false;
+          if (window.hcaptcha) window.hcaptcha.reset(); // a token works only once
+        });
+    });
+  }
+
   // --- Boot ------------------------------------------------------------------
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -461,5 +521,6 @@
     watchHeader();
     markActiveTag();
     setupSearch();
+    setupContactForm();
   });
 })();

@@ -13,14 +13,28 @@ author:
   name: Daniel Carvalho
   email: hello@example.com
 
-# Links rendered as [name] in the hero and footer.
+# Links rendered as [name] in the hero and footer, and listed on /contact/.
+# `handle` is the text shown on the contact page (defaults to the URL).
 social:
   - name: github
+    handle: "@your-user"
     url: https://github.com/
+  - name: codeberg
+    handle: "@your-user"
+    url: https://codeberg.org/
   - name: linkedin
+    handle: in/your-user
     url: https://www.linkedin.com/
   - name: email
+    handle: hello@example.com
     url: mailto:hello@example.com
+
+# Contact form, sent by Web3Forms (free plan) with hCaptcha.
+# Get an access key at https://web3forms.com, then enable hCaptcha for the
+# form in the Web3Forms dashboard.
+contact:
+  access_key: "3a0be323-a7ac-42f2-b332-1b7c2017812f"                 # Web3Forms access key (public, safe to commit)
+  subject: New message from the website
 
 # ---------------------------------------------------------------------------
 # Retro theme options
