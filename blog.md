@@ -1,6 +1,6 @@
 ---
 layout: blog
 title: Blog
-description: Notes on distributed systems, tooling and engineering practice.
+description: Notes about the things I am working.
 permalink: /blog/
 ---
