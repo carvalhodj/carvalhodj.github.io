@@ -613,7 +613,14 @@ a.tag:hover {
   a {
     color: var(--fg);
     text-decoration: underline;
+    text-decoration-thickness: 0.14em;
     text-underline-offset: 0.3em;
+  }
+
+  // Sit the underscore cursor on the link's underline, as if continuing it.
+  a + .cursor--underscore {
+    margin-bottom: 0;
+    vertical-align: -0.44em;
   }
 }
 
