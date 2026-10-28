@@ -11,23 +11,23 @@ baseurl: ""
 
 author:
   name: Daniel Carvalho
-  email: hello@example.com
+  email: daniel@carvalho.io
 
 # Links rendered as [name] in the hero and footer, and listed on /contact/.
 # `handle` is the text shown on the contact page (defaults to the URL).
 social:
   - name: github
-    handle: "@your-user"
-    url: https://github.com/
+    handle: "@carvalhodj"
+    url: https://github.com/carvalhodj
   - name: codeberg
-    handle: "@your-user"
-    url: https://codeberg.org/
+    handle: "@carvalhodj"
+    url: https://codeberg.org/carvalhodj
   - name: linkedin
-    handle: in/your-user
-    url: https://www.linkedin.com/
+    handle: in/carvalhodj
+    url: https://www.linkedin.com/in/carvalhodj
   - name: email
-    handle: hello@example.com
-    url: mailto:hello@example.com
+    handle: daniel@carvalho.io
+    url: mailto:daniel@carvalho.io
 
 # Contact form, sent by Web3Forms (free plan) with hCaptcha.
 # Get an access key at https://web3forms.com, then enable hCaptcha for the
