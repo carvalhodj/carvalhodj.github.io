@@ -58,6 +58,7 @@ retro:
   scanlines: true            # faint CRT lines in dark mode
   search: true               # site search (⌘K / Ctrl+K / "/")
   back_to_top: true          # floating button to scroll back up
+  auto_language: true        # send visitors to their region's language
   cursor: column             # column (█) | bar (|) | underscore (_)
 social:
   - { name: github, url: https://github.com/you }
@@ -106,6 +107,50 @@ Windows/Linux, or <kbd>/</kbd> anywhere) opens a search over all posts,
 projects and pages. `search.json` is generated at build time and fetched the
 first time search opens; matching ignores case and accents. Add
 `search: false` to a page's front matter to leave it out of the index.
+
+### Languages
+
+The site ships in English (at `/`) and Brazilian Portuguese (at `/pt/`). The
+header shows the flag of the other language and links to the same page in
+it, or to that language's home when the page has no translation.
+
+```yaml
+lang: en                 # default language, no URL prefix
+languages:
+  - { code: en,    label: EN, flag: uk }
+  - { code: pt-BR, label: PT, flag: br, path: /pt }
+```
+
+| What                 | English                  | Portuguese                     |
+| -------------------- | ------------------------ | ------------------------------ |
+| Pages                | `about.md` → `/about/`   | `pt/about.md` → `/pt/about/`   |
+| Posts                | `_posts/`                | `_posts/pt/`                   |
+| Projects             | `_projects/`             | `_projects/pt/`                |
+| Experience/education | `_data/experience.yml`   | `_data/pt-BR/experience.yml`   |
+| Interface strings    | `_data/i18n.yml` → `en`  | `_data/i18n.yml` → `pt-BR`     |
+
+Files under those Portuguese folders get `lang: pt-BR` automatically
+(`defaults` in `_config.yml`). A translation is found when it has the same URL
+under `/pt` (same filename), or when both versions share a `ref:` in front
+matter (useful when the post titles, and so the URLs, differ). Lists, tags,
+older/newer links and search only show content in the language being read.
+
+To drop a language, remove its entry from `languages`; with one entry the
+switcher is hidden.
+
+**Automatic language.** Visitors are sent to the version for their region:
+Brazil gets Portuguese, everyone else English. A static site can't see the
+visitor's IP, so the browser guesses the country from its time zone (any
+Brazilian zone), then from the browser language's region (`pt-BR`). Once a
+visitor picks a language with the flag, that choice is remembered and wins.
+Search engine crawlers are never redirected, and pages without a translation
+stay put. Map more countries with `regions: [BR, ...]` on a language, or turn
+it off with `retro.auto_language: false`.
+
+**404 page.** The host serves the root `404.html` for every missing address,
+so it switches to `pt/404.html` when the address starts with `/pt/`, or when
+the visitor's language is Portuguese. The missing address stays in the
+address bar. Both use the text from `not_found_*` in `_data/i18n.yml`.
 
 ### Favicon
 

@@ -8,6 +8,7 @@ sitemap: false
 {%- for post in site.posts %}
   {{ sep }}{
     "type": "post",
+    "lang": {{ post.lang | default: site.lang | jsonify }},
     "title": {{ post.title | jsonify }},
     "url": {{ post.url | relative_url | jsonify }},
     "date": {{ post.date | date: "%Y-%m-%d" | jsonify }},
@@ -19,6 +20,7 @@ sitemap: false
 {%- for project in site.projects %}
   {{ sep }}{
     "type": "project",
+    "lang": {{ project.lang | default: site.lang | jsonify }},
     "title": {{ project.title | jsonify }},
     "url": {{ project.url | relative_url | jsonify }},
     "date": {{ project.year | jsonify }},
@@ -32,6 +34,7 @@ sitemap: false
   {%- assign text = page.content | strip_html | normalize_whitespace %}
   {{ sep }}{
     "type": "page",
+    "lang": {{ page.lang | default: site.lang | jsonify }},
     "title": {{ page.title | jsonify }},
     "url": {{ page.url | relative_url | jsonify }},
     "tags": [],

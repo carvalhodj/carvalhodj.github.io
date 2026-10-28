@@ -3,6 +3,19 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f3eee3">
 {% include prefs-script.html %}
+{%- if site.languages.size > 1 %}
+{%- for other in site.languages %}
+{%- if other.code == lang %}
+<link rel="alternate" hreflang="{{ lang }}" href="{{ page.url | absolute_url }}">
+{%- else %}
+{%- include translation-url.html to=other.code %}
+{%- if translation_found %}
+<link rel="alternate" hreflang="{{ other.code }}" href="{{ translation_url | absolute_url }}">
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+{%- include lang-redirect.html %}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Miranda+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">

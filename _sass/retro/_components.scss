@@ -99,6 +99,32 @@
   padding: 0;
 }
 
+// Language switcher: the flag of the language it links to.
+.lang-switch {
+  text-decoration: none;
+
+  .toggle-value {
+    min-width: 0;
+  }
+}
+
+.flag {
+  display: block;
+  width: 1.15rem;
+  height: 0.8rem;
+  border-radius: 2px;
+  outline: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
+  outline-offset: -1px;
+}
+
+.flag--text {
+  width: auto;
+  height: auto;
+  outline: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
 // Shows the current theme: moon in dark mode, sun in light mode.
 .theme-icon {
   width: 0.95rem;

@@ -1,6 +1,6 @@
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title }}, home">
+    <a class="brand" href="{{ lang_base | append: '/' | relative_url }}" aria-label="{{ site.title }}, {{ t.home }}">
       {%- assign prompt_user = site.retro.prompt.user | default: site.title | default: 'user' %}
       {%- unless site.retro.prompt.user %}{% assign prompt_user = prompt_user | slugify %}{% endunless %}
       <span class="brand-user">{{ prompt_user }}{% if site.retro.prompt.host %}@{{ site.retro.prompt.host }}{% endif %}</span>
@@ -8,19 +8,21 @@
       {%- include cursor.html %}
     </a>
 
-    <nav class="site-nav" aria-label="Main">
+    <nav class="site-nav" aria-label="{{ t.main_nav }}">
       <ul>
         {%- for item in site.data.navigation %}
         {%- comment %} "/" is in every URL, so the home link only matches exactly. {% endcomment %}
+        {%- assign item_url = lang_base | append: item.url %}
         {%- if item.url == "/" %}
+          {%- assign item_index = item_url | append: "index.html" %}
           {%- assign is_current = false %}
-          {%- if page.url == "/" or page.url == "/index.html" %}{% assign is_current = true %}{% endif %}
+          {%- if page.url == item_url or page.url == item_index %}{% assign is_current = true %}{% endif %}
         {%- else %}
-          {%- assign is_current = page.url | slice: 0, item.url.size %}
-          {%- if is_current == item.url %}{% assign is_current = true %}{% else %}{% assign is_current = false %}{% endif %}
+          {%- assign is_current = page.url | slice: 0, item_url.size %}
+          {%- if is_current == item_url %}{% assign is_current = true %}{% else %}{% assign is_current = false %}{% endif %}
         {%- endif %}
         <li>
-          <a href="{{ item.url | relative_url }}"{% if is_current %} aria-current="page"{% endif %}>{{ item.title }}</a>
+          <a href="{{ item_url | relative_url }}"{% if is_current %} aria-current="page"{% endif %}>{{ t.nav[item.title] | default: item.title }}</a>
         </li>
         {%- endfor %}
       </ul>
@@ -28,7 +30,7 @@
 
     <div class="toggles">
       {%- unless site.retro.search == false %}
-      <button class="toggle search-button" type="button" data-search-open aria-label="Search" aria-haspopup="dialog" title="Search">
+      <button class="toggle search-button" type="button" data-search-open aria-label="{{ t.search }}" aria-haspopup="dialog" title="{{ t.search }}">
         <svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true">
           <circle cx="6.75" cy="6.75" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5"/>
           <path d="M10.25 10.25 14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
@@ -37,18 +39,32 @@
       </button>
       {%- endunless %}
       {%- unless site.retro.prompt.font_toggle == false %}
-      <button class="toggle" type="button" data-toggle="prompt-font" aria-label="Switch prompt font" title="Switch prompt font">
+      <button class="toggle" type="button" data-toggle="prompt-font" aria-label="{{ t.switch_prompt_font }}" title="{{ t.switch_prompt_font }}">
         <span class="toggle-glyph toggle-glyph--mono" aria-hidden="true">&gt;_</span>
         <span class="toggle-value" data-label="prompt-font"></span>
       </button>
       {%- endunless %}
       {%- unless site.retro.font_toggle == false %}
-      <button class="toggle" type="button" data-toggle="font" aria-label="Switch typeface" title="Switch typeface">
+      <button class="toggle" type="button" data-toggle="font" aria-label="{{ t.switch_typeface }}" title="{{ t.switch_typeface }}">
         <span class="toggle-glyph" aria-hidden="true">Aa</span>
         <span class="toggle-value" data-label="font"></span>
       </button>
       {%- endunless %}
-      <button class="toggle toggle--icon" type="button" data-toggle="theme" aria-label="Switch color theme" title="Switch color theme">
+      {%- if site.languages.size > 1 %}
+      {%- for other in site.languages %}
+      {%- if other.code != lang %}
+      {%- include translation-url.html to=other.code %}
+      {%- if page.not_found %}{% assign translation_url = other.path | append: "/" %}{% endif %}
+      {%- assign read_in = site.data.i18n[other.code].read_in | default: other.label %}
+      <a class="toggle lang-switch" href="{{ translation_url | relative_url }}" hreflang="{{ other.code }}" lang="{{ other.code }}"
+         aria-label="{{ read_in }}" title="{{ read_in }}">
+        {%- include flag.html flag=other.flag %}
+        <span class="toggle-value">{{ other.label | default: other.code }}</span>
+      </a>
+      {%- endif %}
+      {%- endfor %}
+      {%- endif %}
+      <button class="toggle toggle--icon" type="button" data-toggle="theme" aria-label="{{ t.switch_theme }}" title="{{ t.switch_theme }}">
         <svg class="theme-icon theme-icon--sun" viewBox="0 0 16 16" aria-hidden="true">
           <circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
           <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.4 1.4M11.55 11.55l1.4 1.4M3.05 12.95l1.4-1.4M11.55 4.45l1.4-1.4"

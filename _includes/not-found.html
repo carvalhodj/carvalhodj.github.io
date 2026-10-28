@@ -1,0 +1,24 @@
+{%- include i18n.html %}
+{%- assign home_url = lang_base | append: "/" | relative_url %}
+<section class="bios-screen" aria-labelledby="bios-title">
+  <h1 id="bios-title">{{ t.not_found_heading }}</h1>
+  <p>{{ t.not_found_address }}<br><code data-path>/</code></p>
+  <p>{{ t.not_found_hint }}</p>
+  <p><a href="{{ home_url }}">{{ t.not_found_home }}</a>{% include cursor.html %}</p>
+</section>
+<script>
+  (function () {
+    // A redirect from the other language's 404 brings the address as ?path=;
+    // show it and put it back in the address bar.
+    var missing = new URLSearchParams(window.location.search).get("path");
+    if (missing && missing.charAt(0) === "/") history.replaceState(null, "", missing + window.location.hash);
+    var path = document.querySelector("[data-path]");
+    if (path) path.textContent = window.location.pathname;
+    document.addEventListener("keydown", function (event) {
+      if (event.metaKey || event.ctrlKey || event.altKey || event.key === "Tab" || event.key === "Shift") return;
+      // Leave the search shortcut and typing inside the search box alone.
+      if (event.key === "/" || (event.target.closest && event.target.closest("dialog, input"))) return;
+      window.location.href = "{{ home_url }}";
+    });
+  })();
+</script>

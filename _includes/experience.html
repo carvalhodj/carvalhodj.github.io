@@ -1,4 +1,5 @@
-{%- assign jobs = include.items | default: site.data.experience %}
+{%- include i18n.html %}
+{%- assign jobs = include.items | default: site.data[lang].experience | default: site.data.experience %}
 <ol class="timeline">
   {%- for job in jobs %}
   <li class="timeline-item">

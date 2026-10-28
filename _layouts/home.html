@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{%- include i18n.html %}
 <section class="hero">
   <p class="prompt-line" aria-hidden="true"><span class="ps1">$</span> whoami</p>
   <h1 class="hero-title">{{ page.headline | default: site.author.name | default: site.title }}</h1>
@@ -13,19 +14,23 @@ layout: default
   {% include social.html %}
 </section>
 
-{%- assign featured = site.projects | where: "featured", true | sort: "year" | reverse %}
+{%- assign lang_projects = site.projects | where_exp: "p", "p.lang == lang or p.lang == nil and lang_is_default" %}
+{%- assign featured = lang_projects | where: "featured", true | sort: "year" | reverse %}
 {%- if featured.size > 0 %}
 <section class="section">
-  {% include section-head.html title="Selected work" link="/projects/" link_text="all work" %}
+  {%- assign projects_url = lang_base | append: "/projects/" %}
+  {% include section-head.html title=t.selected_work link=projects_url link_text=t.all_work %}
   {% include project-list.html projects=featured %}
 </section>
 {%- endif %}
 
 {%- assign limit = page.posts_limit | default: 5 %}
-{%- if site.posts.size > 0 %}
+{%- assign lang_posts = site.posts | where_exp: "p", "p.lang == lang or p.lang == nil and lang_is_default" %}
+{%- if lang_posts.size > 0 %}
 <section class="section">
-  {% include section-head.html title="Writing" link="/blog/" link_text="all posts" %}
-  {% assign recent = site.posts | slice: 0, limit %}
+  {%- assign blog_url = lang_base | append: "/blog/" %}
+  {% include section-head.html title=t.writing link=blog_url link_text=t.all_posts %}
+  {% assign recent = lang_posts | slice: 0, limit %}
   {% include post-list.html posts=recent %}
 </section>
 {%- endif %}

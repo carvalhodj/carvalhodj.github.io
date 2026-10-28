@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files = Dir.glob("{_layouts,_includes,_sass,assets}/**/*").select { |f| File.file?(f) } +
-               %w(LICENSE README.md)
+               %w(LICENSE README.md _data/i18n.yml)
 
   spec.add_runtime_dependency "jekyll", ">= 4.0", "< 5.0"
   spec.add_runtime_dependency "jekyll-feed", "~> 0.17"

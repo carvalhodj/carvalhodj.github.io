@@ -1,0 +1,65 @@
+{%- comment %}
+  Sends visitors to the page in their language before anything renders.
+  A language picked with the header flag (retro:lang) wins. Otherwise the
+  visitor's country is guessed, first from the time zone (Brazil only), then
+  from the browser language's region, and matched against `regions` in
+  `languages`; everyone else gets the default language. It only redirects
+  when the page has a translation (an hreflang link above), and never for
+  crawlers, so search engines index every language.
+
+  On the 404 page (`not_found: true`) the missing address decides first:
+  /pt/anything gets the Portuguese 404. The host serves one 404 for every
+  missing URL, so the address travels along as ?path= and is put back.
+{% endcomment %}
+{%- assign auto_language = true %}
+{%- if site.retro.auto_language == false %}{% assign auto_language = false %}{% endif %}
+{%- if site.languages.size > 1 %}{% if auto_language or page.not_found %}
+{%- assign default_lang = site.lang | default: "en" %}
+<script>
+  (function () {
+    if (/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent) || navigator.webdriver) return;
+    var current = document.documentElement.lang, target = null;
+    {%- if page.not_found %}
+    var languages = {{ site.languages | where_exp: "l", "l.path" | jsonify }};
+    var path = window.location.pathname;
+    languages.forEach(function (lang) {
+      if (path.indexOf("{{ site.baseurl }}" + lang.path + "/") === 0) target = lang.code;
+    });
+    {%- endif %}
+    {%- if auto_language %}
+    if (!target) {
+      try { target = localStorage.getItem("retro:lang"); } catch (e) {}
+    }
+    if (!target) {
+      var regions = {{ site.languages | where_exp: "l", "l.regions" | jsonify }};
+      var zone = "";
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+      var brazil = /^America\/(Sao_Paulo|Rio_Branco|Manaus|Cuiaba|Campo_Grande|Porto_Velho|Boa_Vista|Belem|Fortaleza|Recife|Maceio|Bahia|Araguaina|Santarem|Noronha|Eirunepe)$|^Brazil\//;
+      var country = brazil.test(zone) ? "BR" : "";
+      if (!country) {
+        (navigator.languages || [navigator.language]).some(function (tag) {
+          var match = /^[a-z]{2,3}-([A-Z]{2})\b/i.exec(tag || "");
+          if (match) country = match[1].toUpperCase();
+          return !!match;
+        });
+      }
+      target = "{{ default_lang }}";
+      regions.forEach(function (lang) {
+        if (lang.regions.indexOf(country) !== -1) target = lang.code;
+      });
+    }
+    {%- endif %}
+    if (!target || target === current) return;
+    var alt = document.querySelector('link[rel="alternate"][hreflang="' + target + '"]');
+    if (!alt) return;
+    // Keep the current host, so local previews don't jump to the live site.
+    var url = new URL(alt.href).pathname;
+    {%- if page.not_found %}
+    url += "?path=" + encodeURIComponent(path + window.location.search);
+    {%- else %}
+    url += window.location.search;
+    {%- endif %}
+    window.location.replace(url + window.location.hash);
+  })();
+</script>
+{%- endif %}{% endif %}

@@ -1,16 +1,29 @@
 ---
 layout: default
 ---
+{%- include i18n.html %}
+{%- assign lang_posts = site.posts | where_exp: "p", "p.lang == lang or p.lang == nil and lang_is_default" %}
+{%- comment %} Older/newer stay within this post's language. {% endcomment %}
+{%- assign newer_post = nil %}
+{%- assign older_post = nil %}
+{%- for p in lang_posts %}
+  {%- if p.url == page.url %}
+    {%- assign older_post = lang_posts[forloop.index] %}
+    {%- assign newer_index = forloop.index0 | minus: 1 %}
+    {%- if newer_index >= 0 %}{% assign newer_post = lang_posts[newer_index] %}{% endif %}
+    {%- break %}
+  {%- endif %}
+{%- endfor %}
 <article class="post">
   <header class="page-header">
-    <p class="kicker"><a href="{{ '/blog/' | relative_url }}"><span aria-hidden="true">&larr;</span> blog</a></p>
+    <p class="kicker"><a href="{{ lang_base | append: '/blog/' | relative_url }}"><span aria-hidden="true">&larr;</span> {{ t.nav.blog }}</a></p>
     <h1 class="page-title">{{ page.title }}</h1>
     <p class="meta">
       <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
       <span class="sep" aria-hidden="true">/</span>
-      <span>{% include reading-time.html content=content %} read</span>
+      <span>{% include reading-time.html content=content %} {{ t.read }}</span>
       {%- for tag in page.tags %}
-      <a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>
+      <a class="tag" href="{{ lang_base | append: '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>
       {%- endfor %}
     </p>
     {%- if page.description %}
@@ -22,18 +35,18 @@ layout: default
     {{ content }}
   </div>
 
-  {%- if page.previous or page.next %}
-  <nav class="pager" aria-label="More posts">
-    {%- if page.previous %}
-    <a class="pager-link pager-link--prev" href="{{ page.previous.url | relative_url }}">
-      <span class="pager-label">&larr; older</span>
-      <span class="pager-title">{{ page.previous.title }}</span>
+  {%- if older_post or newer_post %}
+  <nav class="pager" aria-label="{{ t.more_posts }}">
+    {%- if older_post %}
+    <a class="pager-link pager-link--prev" href="{{ older_post.url | relative_url }}">
+      <span class="pager-label">&larr; {{ t.older }}</span>
+      <span class="pager-title">{{ older_post.title }}</span>
     </a>
     {%- endif %}
-    {%- if page.next %}
-    <a class="pager-link pager-link--next" href="{{ page.next.url | relative_url }}">
-      <span class="pager-label">newer &rarr;</span>
-      <span class="pager-title">{{ page.next.title }}</span>
+    {%- if newer_post %}
+    <a class="pager-link pager-link--next" href="{{ newer_post.url | relative_url }}">
+      <span class="pager-label">{{ t.newer }} &rarr;</span>
+      <span class="pager-title">{{ newer_post.title }}</span>
     </a>
     {%- endif %}
   </nav>

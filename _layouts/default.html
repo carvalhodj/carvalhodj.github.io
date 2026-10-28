@@ -1,10 +1,11 @@
+{%- include i18n.html -%}
 <!doctype html>
-<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+<html lang="{{ lang }}">
 <head>
   {%- include head.html %}
 </head>
 <body{% unless site.retro.scanlines == false %} class="has-scanlines"{% endunless %}>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">{{ t.skip_to_content }}</a>
   {% include header.html %}
   <main id="main" class="wrap site-main">
     {{ content }}
@@ -16,5 +17,6 @@
   {%- unless site.retro.search == false %}
   {% include search.html %}
   {%- endunless %}
+  <script type="application/json" id="retro-strings">{{ t.js | jsonify }}</script>
 </body>
 </html>

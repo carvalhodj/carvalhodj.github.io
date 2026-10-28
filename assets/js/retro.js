@@ -5,6 +5,21 @@
   var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
   var KEY_THEME = "retro:theme";
 
+  // Interface strings for the page's language (from _data/i18n.yml, embedded
+  // by the default layout). Each call passes the English text as a fallback.
+  var STRINGS = (function () {
+    var el = document.getElementById("retro-strings");
+    try { return (el && JSON.parse(el.textContent)) || {}; } catch (e) { return {}; }
+  })();
+
+  function tr(key, fallback, vars) {
+    var text = STRINGS[key] || fallback;
+    Object.keys(vars || {}).forEach(function (name) {
+      text = text.split("{" + name + "}").join(vars[name]);
+    });
+    return text;
+  }
+
   function read(key) {
     try { return localStorage.getItem(key); } catch (e) { return null; }
   }
@@ -32,10 +47,12 @@
     var meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", getComputedStyle(root).getPropertyValue("--bg").trim());
 
-    var next = theme === "dark" ? "light" : "dark";
+    var label = theme === "dark"
+      ? tr("theme_to_light", "Switch to light theme")
+      : tr("theme_to_dark", "Switch to dark theme");
     document.querySelectorAll('[data-toggle="theme"]').forEach(function (button) {
-      button.setAttribute("aria-label", "Switch to " + next + " theme");
-      button.setAttribute("title", "Switch to " + next + " theme");
+      button.setAttribute("aria-label", label);
+      button.setAttribute("title", label);
     });
   }
 
@@ -57,7 +74,7 @@
   var FONT_SWITCHERS = [
     {
       name: "font",
-      what: "Typeface",
+      what: tr("typeface", "Typeface"),
       fonts: {
         plex: "IBM Plex Sans",
         helvetica: "Helvetica",
@@ -68,7 +85,7 @@
     },
     {
       name: "prompt-font",
-      what: "Prompt font",
+      what: tr("prompt_font", "Prompt font"),
       fonts: { fira: "Fira Code", bios: "IBM BIOS" }
     }
   ];
@@ -80,8 +97,11 @@
 
   function applyFont(switcher, font) {
     root.setAttribute("data-" + switcher.name, font);
-    var label = switcher.what + ": " + switcher.fonts[font] +
-      ". Switch to " + switcher.fonts[nextFont(switcher, font)];
+    var label = tr("font_label", "{what}: {font}. Switch to {next}", {
+      what: switcher.what,
+      font: switcher.fonts[font],
+      next: switcher.fonts[nextFont(switcher, font)]
+    });
     document.querySelectorAll('[data-toggle="' + switcher.name + '"]').forEach(function (button) {
       button.setAttribute("aria-label", label);
       button.setAttribute("title", label);
@@ -129,16 +149,16 @@
         var button = document.createElement("button");
         button.type = "button";
         button.className = "code-copy";
-        button.textContent = "copy";
-        button.setAttribute("aria-label", "Copy code to clipboard");
+        button.textContent = tr("copy", "copy");
+        button.setAttribute("aria-label", tr("copy_label", "Copy code to clipboard"));
         button.addEventListener("click", function () {
           // Skip line-number gutters when present.
           var source = block.querySelector(".rouge-code pre") || code;
           navigator.clipboard.writeText(source.innerText.replace(/\n$/, "")).then(function () {
-            button.textContent = "copied";
+            button.textContent = tr("copied", "copied");
             button.setAttribute("data-copied", "");
             window.setTimeout(function () {
-              button.textContent = "copy";
+              button.textContent = tr("copy", "copy");
               button.removeAttribute("data-copied");
             }, 1600);
           });
@@ -165,6 +185,17 @@
 
   // --- Back to top -----------------------------------------------------------
   // Shows the button once the page is scrolled past one screen.
+
+  // --- Language --------------------------------------------------------------
+  // Picking a language with the flag overrides the region-based guess.
+
+  function rememberLanguage() {
+    document.querySelectorAll(".lang-switch").forEach(function (link) {
+      link.addEventListener("click", function () {
+        write("retro:lang", link.getAttribute("hreflang"));
+      });
+    });
+  }
 
   function setupBackToTop() {
     var button = document.querySelector("[data-back-to-top]");
@@ -331,7 +362,7 @@
       kbd.textContent = shortcut;
     });
     document.querySelectorAll("[data-search-open]").forEach(function (button) {
-      button.setAttribute("title", "Search (" + shortcut + ")");
+      button.setAttribute("title", tr("search_title", "Search ({shortcut})", { shortcut: shortcut }));
       button.setAttribute("aria-keyshortcuts", IS_MAC ? "Meta+K" : "Control+K");
       button.addEventListener("click", open);
     });
@@ -344,7 +375,11 @@
             return response.json();
           })
           .then(function (items) {
-            docs = items.map(function (item) {
+            // Only search pages in the language being read.
+            var lang = root.getAttribute("lang");
+            docs = items.filter(function (item) {
+              return !item.lang || !lang || item.lang === lang;
+            }).map(function (item) {
               item.titleKey = fold(item.title || "");
               item.tagKey = fold((item.tags || []).join(" "));
               item.body = foldWithMap(item.content || "");
@@ -353,7 +388,7 @@
           })
           .catch(function () {
             loading = null; // allow a retry on next open
-            status.textContent = "Search index could not be loaded.";
+            status.textContent = tr("search_failed", "Search index could not be loaded.");
           });
       }
       return loading;
@@ -382,7 +417,7 @@
 
     function render() {
       if (!docs) {
-        if (!status.textContent) status.textContent = "Loading…";
+        if (!status.textContent) status.textContent = tr("search_loading", "Loading…");
         return;
       }
       var query = input.value.trim();
@@ -391,7 +426,7 @@
       active = results.length ? 0 : -1;
 
       list.innerHTML = results.map(function (doc, i) {
-        var meta = escapeHtml(doc.type) + (doc.date ? " · " + escapeHtml(doc.date) : "");
+        var meta = escapeHtml(tr("type_" + doc.type, doc.type)) + (doc.date ? " · " + escapeHtml(doc.date) : "");
         return '<li role="option" id="search-option-' + i + '">' +
           '<a href="' + escapeHtml(doc.url) + '" tabindex="-1">' +
           '<span class="search-meta">' + meta + "</span>" +
@@ -400,8 +435,8 @@
           "</a></li>";
       }).join("");
 
-      if (!query) status.textContent = "Type to search " + docs.length + " posts, projects and pages.";
-      else if (!results.length) status.textContent = "No matches for “" + query + "”.";
+      if (!query) status.textContent = tr("search_hint", "Type to search {count} posts, projects and pages.", { count: docs.length });
+      else if (!results.length) status.textContent = tr("search_none", "No matches for “{query}”.", { query: query });
       else status.textContent = "";
 
       input.setAttribute("aria-expanded", results.length > 0 ? "true" : "false");
@@ -486,24 +521,24 @@
     }
 
     if (/[?&]sent=1\b/.test(window.location.search)) {
-      show("ok", "Message sent. Thanks, I'll get back to you soon.");
+      show("ok", tr("contact_sent", "Message sent. Thanks, I'll get back to you soon."));
     }
 
     form.addEventListener("submit", function (event) {
       event.preventDefault();
 
       if (!form.elements.access_key.value) {
-        show("error", "The contact form isn't configured yet.");
+        show("error", tr("contact_not_configured", "The contact form isn't configured yet."));
         return;
       }
       var captcha = form.querySelector('[name="h-captcha-response"]');
       if (captcha && !captcha.value) {
-        show("error", "Please complete the captcha first.");
+        show("error", tr("contact_captcha", "Please complete the captcha first."));
         return;
       }
 
       button.disabled = true;
-      show("pending", "Sending…");
+      show("pending", tr("contact_sending", "Sending…"));
 
       fetch(form.action, {
         method: "POST",
@@ -517,10 +552,10 @@
         })
         .then(function () {
           form.reset();
-          show("ok", "Message sent. Thanks, I'll get back to you soon.");
+          show("ok", tr("contact_sent", "Message sent. Thanks, I'll get back to you soon."));
         })
         .catch(function (error) {
-          show("error", "Couldn't send: " + error.message + ". Please try again later.");
+          show("error", tr("contact_failed", "Couldn't send: {error}. Please try again later.", { error: error.message }));
         })
         .then(function () {
           button.disabled = false;
@@ -534,6 +569,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     applyTheme(root.getAttribute("data-theme") || systemTheme(), false);
     FONT_SWITCHERS.forEach(setupFontSwitcher);
+    rememberLanguage();
 
     document.querySelectorAll('[data-toggle="theme"]').forEach(function (button) {
       button.addEventListener("click", toggleTheme);

@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+{%- include i18n.html %}
 <section class="page">
   <header class="page-header">
     <h1 class="page-title">{{ page.title | default: "Work" }}</h1>
@@ -11,7 +12,8 @@ layout: default
 
   {{ content }}
 
-  {%- assign projects = site.projects | sort: "year" | reverse %}
+  {%- assign lang_projects = site.projects | where_exp: "p", "p.lang == lang or p.lang == nil and lang_is_default" %}
+  {%- assign projects = lang_projects | sort: "year" | reverse %}
   <section class="section section--tight">
     {% include project-list.html projects=projects %}
   </section>

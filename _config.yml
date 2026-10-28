@@ -5,9 +5,22 @@ title: Daniel Carvalho
 description: >-
   Senior software engineer. I build distributed systems and developer tools,
   and write about the craft of making software that lasts.
-lang: en
+lang: en                       # default language, served from the site root
 url: "https://carvalhodj.github.io"                          # e.g. https://example.com
 baseurl: ""
+
+# Languages for the header switcher. `path` is the URL prefix for that
+# language's pages; the default language (`lang`) has none. Interface strings
+# live in _data/i18n.yml. Remove all but one entry to hide the switcher.
+languages:
+  - code: en
+    label: EN
+    flag: uk
+  - code: pt-BR
+    label: PT
+    flag: br
+    path: /pt
+    regions: [BR]                # visitors from these countries get this language
 
 author:
   name: Daniel Carvalho
@@ -41,6 +54,7 @@ retro:
   scanlines: true                # faint CRT scanlines (dark mode only)
   search: true                   # search button + ⌘K / Ctrl+K / "/" shortcuts
   back_to_top: true              # floating "back to top" button after scrolling
+  auto_language: true            # Brazil gets Portuguese, everyone else English (until they pick a flag)
   cursor: underscore                 # blinking cursor: column (█) | bar (|) | underscore (_)
   prompt:                        # header brand: <user>@<host>:~$ <cursor>
     user: daniel
@@ -65,6 +79,13 @@ defaults:
     values: { layout: project }
   - scope: { path: "", type: pages }
     values: { layout: page }
+  # Brazilian Portuguese: pages in pt/, posts in _posts/pt/, projects in _projects/pt/.
+  - scope: { path: "pt" }
+    values: { lang: pt-BR }
+  - scope: { path: "_posts/pt" }
+    values: { lang: pt-BR, permalink: "/pt/blog/:year/:title/" }
+  - scope: { path: "_projects/pt" }
+    values: { lang: pt-BR, permalink: "/pt/projects/:name/" }
 
 # ---------------------------------------------------------------------------
 # Build

@@ -1,4 +1,5 @@
-{%- assign courses = include.items | default: site.data.education %}
+{%- include i18n.html %}
+{%- assign courses = include.items | default: site.data[lang].education | default: site.data.education %}
 <ol class="timeline">
   {%- for course in courses %}
   <li class="timeline-item">

@@ -1,9 +1,10 @@
 ---
 layout: default
 ---
+{%- include i18n.html %}
 <article class="project">
   <header class="page-header">
-    <p class="kicker"><a href="{{ '/projects/' | relative_url }}"><span aria-hidden="true">&larr;</span> work</a></p>
+    <p class="kicker"><a href="{{ lang_base | append: '/projects/' | relative_url }}"><span aria-hidden="true">&larr;</span> {{ t.nav.work }}</a></p>
     <h1 class="page-title">{{ page.title }}</h1>
     {%- if page.summary %}
     <p class="page-lede">{{ page.summary }}</p>
@@ -11,17 +12,17 @@ layout: default
 
     <dl class="specs">
       {%- if page.year %}
-      <div><dt>year</dt><dd>{{ page.year }}</dd></div>
+      <div><dt>{{ t.year }}</dt><dd>{{ page.year }}</dd></div>
       {%- endif %}
       {%- if page.role %}
-      <div><dt>role</dt><dd>{{ page.role }}</dd></div>
+      <div><dt>{{ t.role }}</dt><dd>{{ page.role }}</dd></div>
       {%- endif %}
       {%- if page.stack %}
-      <div><dt>stack</dt><dd>{{ page.stack | join: ", " }}</dd></div>
+      <div><dt>{{ t.stack }}</dt><dd>{{ page.stack | join: ", " }}</dd></div>
       {%- endif %}
       {%- if page.links %}
       <div>
-        <dt>links</dt>
+        <dt>{{ t.links }}</dt>
         <dd>
           {%- for link in page.links %}
           <a href="{{ link.url }}">{{ link.name }}</a>{% unless forloop.last %}, {% endunless %}
