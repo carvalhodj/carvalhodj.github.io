@@ -11,7 +11,6 @@ baseurl: ""
 
 author:
   name: Daniel Carvalho
-  email: daniel@carvalho.io
 
 # Links rendered as [name] in the hero and footer, and listed on /contact/.
 # `handle` is the text shown on the contact page (defaults to the URL).
@@ -25,9 +24,6 @@ social:
   - name: linkedin
     handle: in/carvalhodj
     url: https://www.linkedin.com/in/carvalhodj
-  - name: email
-    handle: daniel@carvalho.io
-    url: mailto:daniel@carvalho.io
 
 # Contact form, sent by Web3Forms (free plan) with hCaptcha.
 # Get an access key at https://web3forms.com, then enable hCaptcha for the

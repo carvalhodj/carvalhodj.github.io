@@ -498,7 +498,7 @@
           show("ok", "Message sent. Thanks, I'll get back to you soon.");
         })
         .catch(function (error) {
-          show("error", "Couldn't send: " + error.message + ". Please try again or email me directly.");
+          show("error", "Couldn't send: " + error.message + ". Please try again later.");
         })
         .then(function () {
           button.disabled = false;

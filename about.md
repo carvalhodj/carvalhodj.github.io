@@ -20,4 +20,4 @@ After a few years got experience with POS machines working in a fintech company,
 
 - Code on [GitHub](https://github.com/carvalhodj) and [Codeberg](https://codeberg.org/carvalhodj)
 - Work history on [LinkedIn](https://www.linkedin.com/in/carvalhodj)
-- Email: [daniel@carvalho.io](mailto:daniel@carvalho.io)
+- Or send a message through the [contact form](/contact/)
