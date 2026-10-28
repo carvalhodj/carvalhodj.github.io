@@ -6,7 +6,7 @@ description: >-
   Senior software engineer. I build distributed systems and developer tools,
   and write about the craft of making software that lasts.
 lang: en
-url: ""                          # e.g. https://example.com
+url: "https://carvalhodj.github.io"                          # e.g. https://example.com
 baseurl: ""
 
 author:
