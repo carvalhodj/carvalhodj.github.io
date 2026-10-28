@@ -1,6 +1,6 @@
 ---
 layout: home
-role: Principal software engineer
+role: Software engineer
 posts_limit: 5
 ---
 
