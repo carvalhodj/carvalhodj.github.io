@@ -5,7 +5,7 @@
   var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
   var KEY_THEME = "retro:theme";
 
-  // Interface strings for the page's language (from _data/i18n.yml, embedded
+  // Interface strings for the page's language (from i18n/*.yaml, embedded
   // by the default layout). Each call passes the English text as a fallback.
   var STRINGS = (function () {
     var el = document.getElementById("retro-strings");
@@ -127,10 +127,11 @@
   // --- Code blocks -----------------------------------------------------------
 
   function enhanceCodeBlocks() {
-    var blocks = document.querySelectorAll("div.highlighter-rouge, figure.highlight");
+    var blocks = document.querySelectorAll("div.highlight");
 
     blocks.forEach(function (block) {
-      var code = block.querySelector("pre code") || block.querySelector("pre");
+      // With table line numbers the gutter is a <code> too; the source has data-lang.
+      var code = block.querySelector("code[data-lang]") || block.querySelector("pre code") || block.querySelector("pre");
       if (!code) return;
 
       var match = (block.className + " " + code.className).match(/language-([\w+#-]+)/);
@@ -152,9 +153,10 @@
         button.textContent = tr("copy", "copy");
         button.setAttribute("aria-label", tr("copy_label", "Copy code to clipboard"));
         button.addEventListener("click", function () {
-          // Skip line-number gutters when present.
-          var source = block.querySelector(".rouge-code pre") || code;
-          navigator.clipboard.writeText(source.innerText.replace(/\n$/, "")).then(function () {
+          // Skip inline line numbers when present.
+          var source = code.cloneNode(true);
+          source.querySelectorAll(".ln").forEach(function (number) { number.remove(); });
+          navigator.clipboard.writeText(source.textContent.replace(/\n$/, "")).then(function () {
             button.textContent = tr("copied", "copied");
             button.setAttribute("data-copied", "");
             window.setTimeout(function () {

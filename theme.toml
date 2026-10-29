@@ -1,0 +1,11 @@
+name = "Retro"
+license = "MIT"
+description = "A minimalist Hugo theme for portfolios and blogs, with retro terminal details."
+homepage = "https://carvalhodj.github.io"
+tags = ["blog", "portfolio", "minimal", "dark mode", "multilingual", "search", "retro"]
+features = ["dark mode", "multilingual", "search", "syntax highlighting", "contact form"]
+min_version = "0.158.0"
+
+[author]
+  name = "Daniel Carvalho"
+  homepage = "https://carvalhodj.github.io"

@@ -1,0 +1,79 @@
+{{- $opts := partial "options.html" . -}}
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="{{ site.Home.RelPermalink }}" aria-label="{{ site.Title }}, {{ T "home" }}">
+      <span class="brand-user">{{ $opts.prompt_user }}{{ with $opts.prompt_host }}@{{ . }}{{ end }}</span>
+      <span class="brand-sep">:</span><span class="brand-path">~</span><span class="brand-sigil">$</span>
+      {{- partial "cursor.html" . }}
+    </a>
+
+    <nav class="site-nav" aria-label="{{ T "main_nav" }}">
+      <ul>
+        {{- range hugo.Data.navigation }}
+        {{- $url := printf "%s%s" site.Home.RelPermalink (strings.TrimPrefix "/" .url) }}
+        {{- /* "/" is in every URL, so the home link only matches exactly. */}}
+        {{- $current := false }}
+        {{- if eq .url "/" }}
+          {{- $current = eq $.RelPermalink $url }}
+        {{- else }}
+          {{- $current = hasPrefix $.RelPermalink $url }}
+        {{- end }}
+        <li>
+          <a href="{{ $url }}"{{ if $current }} aria-current="page"{{ end }}>{{ T (printf "nav_%s" .title) | default .title }}</a>
+        </li>
+        {{- end }}
+      </ul>
+    </nav>
+
+    <div class="toggles">
+      {{- if $opts.search }}
+      <button class="toggle search-button" type="button" data-search-open aria-label="{{ T "search" }}" aria-haspopup="dialog" title="{{ T "search" }}">
+        <svg class="search-icon" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="6.75" cy="6.75" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10.25 10.25 14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+        </svg>
+        <kbd class="search-kbd" data-search-kbd></kbd>
+      </button>
+      {{- end }}
+      {{- if $opts.prompt_font_toggle }}
+      <button class="toggle" type="button" data-toggle="prompt-font" aria-label="{{ T "switch_prompt_font" }}" title="{{ T "switch_prompt_font" }}">
+        <span class="toggle-glyph toggle-glyph--mono" aria-hidden="true">&gt;_</span>
+        <span class="toggle-value" data-label="prompt-font"></span>
+      </button>
+      {{- end }}
+      {{- if $opts.font_toggle }}
+      <button class="toggle" type="button" data-toggle="font" aria-label="{{ T "switch_typeface" }}" title="{{ T "switch_typeface" }}">
+        <span class="toggle-glyph" aria-hidden="true">Aa</span>
+        <span class="toggle-value" data-label="font"></span>
+      </button>
+      {{- end }}
+      {{- if gt (len hugo.Sites) 1 }}
+      {{- range hugo.Sites }}
+      {{- if ne .Language.Lang site.Language.Lang }}
+      {{- $url := (partial "translation.html" (dict "page" $ "site" .)).url }}
+      {{- if eq $.Kind "404" }}{{ $url = .Home.RelPermalink }}{{ end }}
+      {{- $code := partial "lang-code.html" .Language }}
+      {{- $label := .Language.Label | default $code }}
+      {{- $readIn := T (printf "read_in_%s" .Language.Lang) | default $label }}
+      <a class="toggle lang-switch" href="{{ $url }}" hreflang="{{ $code }}" lang="{{ $code }}"
+         aria-label="{{ $readIn }}" title="{{ $readIn }}">
+        {{- partial "flag.html" .Params.flag }}
+        <span class="toggle-value">{{ $label }}</span>
+      </a>
+      {{- end }}
+      {{- end }}
+      {{- end }}
+      <button class="toggle toggle--icon" type="button" data-toggle="theme" aria-label="{{ T "switch_theme" }}" title="{{ T "switch_theme" }}">
+        <svg class="theme-icon theme-icon--sun" viewBox="0 0 16 16" aria-hidden="true">
+          <circle cx="8" cy="8" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.4 1.4M11.55 11.55l1.4 1.4M3.05 12.95l1.4-1.4M11.55 4.45l1.4-1.4"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+        </svg>
+        <svg class="theme-icon theme-icon--moon" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M13.5 9.6A5.75 5.75 0 0 1 6.4 2.5a5.75 5.75 0 1 0 7.1 7.1Z"
+                fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>

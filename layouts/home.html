@@ -1,0 +1,32 @@
+{{ define "main" }}
+{{- $opts := partial "options.html" . }}
+<section class="hero">
+  <p class="prompt-line" aria-hidden="true"><span class="ps1">$</span> whoami</p>
+  <h1 class="hero-title">{{ .Params.headline | default $opts.author }}</h1>
+  {{- with .Params.role }}
+  <p class="hero-role">{{ . }}</p>
+  {{- end }}
+  <div class="hero-intro">
+    {{ .Content }}
+  </div>
+  {{ partial "social.html" dict }}
+</section>
+
+{{- $projects := where site.RegularPages "Section" "projects" }}
+{{- $featured := sort (where $projects "Params.featured" true) "Params.year" "desc" }}
+{{- if $featured }}
+<section class="section">
+  {{ partial "section-head.html" (dict "title" (T "selected_work") "link" (partial "section-url.html" "projects") "link_text" (T "all_work")) }}
+  {{ partial "project-list.html" $featured }}
+</section>
+{{- end }}
+
+{{- $limit := .Params.posts_limit | default 5 }}
+{{- $posts := where site.RegularPages "Section" "blog" }}
+{{- if $posts }}
+<section class="section">
+  {{ partial "section-head.html" (dict "title" (T "writing") "link" (partial "section-url.html" "blog") "link_text" (T "all_posts")) }}
+  {{ partial "post-list.html" (first $limit $posts) }}
+</section>
+{{- end }}
+{{ end }}

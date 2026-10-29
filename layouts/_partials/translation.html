@@ -1,0 +1,30 @@
+{{- /*
+  Finds `page` in the language of `site` (one of hugo.Sites). Hugo pairs
+  translations by a shared `translationKey` in front matter, or by having
+  the same path in each language's content directory (about.md in both).
+  With no translation it falls back to that language's home and returns
+  found = false.
+*/ -}}
+{{- $page := .page }}
+{{- $to := .site }}
+{{- $found := false }}
+{{- $url := $to.Home.RelPermalink }}
+{{- $permalink := $to.Home.Permalink }}
+{{- if eq $to.Language.Lang $page.Language.Lang }}
+  {{- $found = true }}
+  {{- $url = $page.RelPermalink }}
+  {{- $permalink = $page.Permalink }}
+{{- else if eq $page.Kind "404" }}
+  {{- $found = true }}
+  {{- $url = printf "%s404.html" $to.Home.RelPermalink }}
+  {{- $permalink = printf "%s404.html" $to.Home.Permalink }}
+{{- else }}
+  {{- range $page.Translations }}
+    {{- if eq .Language.Lang $to.Language.Lang }}
+      {{- $found = true }}
+      {{- $url = .RelPermalink }}
+      {{- $permalink = .Permalink }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- return dict "found" $found "url" $url "permalink" $permalink -}}

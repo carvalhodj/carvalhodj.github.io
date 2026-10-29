@@ -1,0 +1,18 @@
+{{- $index := "" }}
+{{- with site.Home.OutputFormats.Get "searchindex" }}{{ $index = .RelPermalink }}{{ end -}}
+<dialog class="search-dialog" data-search data-index="{{ $index }}" aria-label="{{ T "search_dialog" }}">
+  <div class="search-box">
+    <label class="search-prompt" for="search-input"><span class="ps1" aria-hidden="true">$</span> grep</label>
+    <input id="search-input" class="search-input" type="search" placeholder="{{ T "search_placeholder" }}"
+           autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go"
+           role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+    <button class="search-close" type="button" data-search-close aria-label="{{ T "search_close" }}"><kbd>esc</kbd></button>
+  </div>
+  <p class="search-status" data-search-status role="status"></p>
+  <ul class="search-results" id="search-results" data-search-results role="listbox" aria-label="{{ T "search_results" }}"></ul>
+  <footer class="search-foot" aria-hidden="true">
+    <span><kbd>↑</kbd><kbd>↓</kbd> {{ T "search_navigate" }}</span>
+    <span><kbd>↵</kbd> {{ T "search_open" }}</span>
+    <span><kbd>esc</kbd> {{ T "search_esc" }}</span>
+  </footer>
+</dialog>

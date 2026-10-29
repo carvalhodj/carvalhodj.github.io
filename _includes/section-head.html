@@ -1,7 +1,0 @@
-<header class="section-head">
-  <h2 class="section-title"><span class="ps1" aria-hidden="true">&gt;</span> {{ include.title }}</h2>
-  {%- if include.link %}
-  <span class="leader" aria-hidden="true"></span>
-  <a class="section-link" href="{{ include.link | relative_url }}">{{ include.link_text | default: 'all' }} <span aria-hidden="true">&rarr;</span></a>
-  {%- endif %}
-</header>

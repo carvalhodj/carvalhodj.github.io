@@ -1,0 +1,81 @@
+{{ define "main" }}
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">{{ .Title | default "Contact" }}</h1>
+    {{- with .Description }}
+    <p class="page-lede">{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{- with .Content }}
+  <div class="prose">{{ . }}</div>
+  {{- end }}
+
+  {{- $contact := site.Params.contact | default dict }}
+  {{- $accessKey := $contact.access_key | default "" }}
+  <section class="section">
+    {{ partial "section-head.html" (dict "title" (T "send_message")) }}
+
+    {{- if not $accessKey }}
+    <p class="contact-notice" role="note">
+      <span class="ps1" aria-hidden="true">!</span>
+      {{ T "form_not_configured_html" | safeHTML }}
+    </p>
+    {{- end }}
+
+    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact-form>
+      <input type="hidden" name="access_key" value="{{ $accessKey }}">
+      <input type="hidden" name="subject" value="{{ $contact.subject | default "New message from the website" }}">
+      <input type="hidden" name="from_name" value="{{ site.Title }}">
+      {{- if site.BaseURL }}
+      <input type="hidden" name="redirect" value="{{ .Permalink }}?sent=1">
+      {{- end }}
+      {{- /* Honeypot: real people never see or tick this. */}}
+      <input type="checkbox" name="botcheck" class="contact-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="field">
+        <label for="contact-name">{{ T "name" }}</label>
+        <input id="contact-name" name="name" type="text" autocomplete="name" required maxlength="120">
+      </div>
+      <div class="field">
+        <label for="contact-email">{{ T "email" }}</label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="200">
+      </div>
+      <div class="field">
+        <label for="contact-message">{{ T "message" }}</label>
+        <textarea id="contact-message" name="message" rows="7" required maxlength="5000"></textarea>
+      </div>
+
+      <div class="h-captcha" data-captcha="true"></div>
+      <script>
+        /* Match the captcha widget to the current theme before it renders. */
+        document.currentScript.previousElementSibling.setAttribute(
+          "data-theme", document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+      </script>
+
+      <div class="contact-actions">
+        <button class="contact-submit" type="submit">{{ T "send" }}</button>
+        <p class="contact-status" data-contact-status role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </section>
+
+  {{- with site.Params.social }}
+  <section class="section">
+    {{ partial "section-head.html" (dict "title" (T "elsewhere")) }}
+    <ul class="rows contact-links">
+      {{- range . }}
+      {{- $shown := .handle | default (replaceRE `^(https?://|mailto:)` "" .url) }}
+      <li class="row row--post">
+        <span class="row-meta">{{ .name }}</span>
+        <a class="row-title" href="{{ .url }}"{{ if not (strings.Contains .url "mailto:") }} rel="me noopener"{{ end }}>{{ $shown }}</a>
+        <span class="row-aside" aria-hidden="true">&nearr;</span>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</section>
+
+<script src="https://web3forms.com/client/script.js" async defer></script>
+{{ end }}

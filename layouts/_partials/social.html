@@ -1,0 +1,12 @@
+{{- with site.Params.social }}
+<ul class="social">
+  {{- range . }}
+  <li><a href="{{ .url }}"{{ if not (strings.Contains .url "mailto:") }} rel="me noopener"{{ end }}>{{ .name }}</a></li>
+  {{- end }}
+  {{- if $.feed }}
+  {{- with site.Home.OutputFormats.Get "rss" }}
+  <li><a href="{{ .RelPermalink }}">rss</a></li>
+  {{- end }}
+  {{- end }}
+</ul>
+{{- end }}

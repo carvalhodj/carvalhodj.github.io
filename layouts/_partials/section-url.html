@@ -1,0 +1,4 @@
+{{- /* URL of a section's list page in the current language: "blog" → /blog/ or /en/blog/. */ -}}
+{{- $url := printf "%s%s/" site.Home.RelPermalink . }}
+{{- with site.GetPage . }}{{ $url = .RelPermalink }}{{ end }}
+{{- return $url -}}

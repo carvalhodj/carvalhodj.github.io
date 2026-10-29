@@ -1,0 +1,7 @@
+<header class="section-head">
+  <h2 class="section-title"><span class="ps1" aria-hidden="true">&gt;</span> {{ .title }}</h2>
+  {{- with .link }}
+  <span class="leader" aria-hidden="true"></span>
+  <a class="section-link" href="{{ . }}">{{ $.link_text | default "all" }} <span aria-hidden="true">&rarr;</span></a>
+  {{- end }}
+</header>

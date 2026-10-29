@@ -1,0 +1,9 @@
+<ul class="rows">
+  {{- range . }}
+  <li class="row row--post">
+    <time class="row-meta" datetime="{{ .Date.Format "2006-01-02T15:04:05-07:00" }}">{{ .Date.Format "2006-01-02" }}</time>
+    <a class="row-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <span class="row-aside">{{ partial "reading-time.html" . }} min</span>
+  </li>
+  {{- end }}
+</ul>

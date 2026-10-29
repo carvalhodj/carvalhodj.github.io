@@ -1,0 +1,2 @@
+{{- /* Every fenced block gets the terminal window, even without a language ("text"). */ -}}
+{{- transform.Highlight .Inner (.Type | default "text") .Options -}}

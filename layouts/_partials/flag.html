@@ -1,0 +1,20 @@
+{{- /* Small flag icons for the language switcher: uk, br. */ -}}
+{{- if in (slice "uk" "gb") . }}
+<svg class="flag" viewBox="0 0 60 30" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <clipPath id="flag-uk-t"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath>
+  <path d="M0 0h60v30H0z" fill="#012169"/>
+  <path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/>
+  <path d="M0 0l60 30m0-30L0 30" clip-path="url(#flag-uk-t)" stroke="#c8102e" stroke-width="4"/>
+  <path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/>
+  <path d="M30 0v30M0 15h60" stroke="#c8102e" stroke-width="6"/>
+</svg>
+{{- else if eq . "br" }}
+<svg class="flag" viewBox="0 0 60 40" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+  <path d="M0 0h60v40H0z" fill="#009c3b"/>
+  <path d="M30 4.5 55 20 30 35.5 5 20z" fill="#ffdf00"/>
+  <circle cx="30" cy="20" r="9" fill="#002776"/>
+  <path d="M21.3 17.6a20 20 0 0 1 17.6 4.6" fill="none" stroke="#fff" stroke-width="1.6"/>
+</svg>
+{{- else }}
+<span class="flag flag--text" aria-hidden="true">{{ . }}</span>
+{{- end }}

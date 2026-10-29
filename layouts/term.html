@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- /* One tag's posts at /tags/<tag>/. The tags page itself links to /tags/#<tag>. */}}
+<section class="page">
+  <header class="page-header">
+    <p class="kicker"><a href="{{ .Parent.RelPermalink }}"><span aria-hidden="true">&larr;</span> {{ T "nav_tags" }}</a></p>
+    <h1 class="page-title">#{{ .LinkTitle }}</h1>
+    {{- with .Description }}
+    <p class="page-lede">{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{ .Content }}
+
+  <section class="section section--tight">
+    {{ partial "post-list.html" .Pages }}
+  </section>
+</section>
+{{ end }}

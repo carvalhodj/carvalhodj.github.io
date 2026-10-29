@@ -1,0 +1,20 @@
+# Theme defaults, merged under the site's own hugo.toml. Hugo only takes
+# output formats, media types, params and menus from a theme; the settings
+# the theme also needs (outputs, permalinks, highlighting) go in the site's
+# config, see exampleSite/hugo.toml.
+
+[module.hugoVersion]
+  extended = false
+  min = "0.158.0"
+
+# search.json, written for the home page of each language when the site
+# lists "searchindex" in outputs.home.
+[outputFormats.searchindex]
+  mediaType = "application/json"
+  baseName = "search"
+  isPlainText = true
+  notAlternative = true
+
+# The feed is feed.xml, as with jekyll-feed.
+[outputFormats.rss]
+  baseName = "feed"

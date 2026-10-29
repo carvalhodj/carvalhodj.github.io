@@ -1,0 +1,4 @@
+{{- /* Minutes to read at 200 words a minute, at least 1. */ -}}
+{{- $minutes := div .WordCount 200 }}
+{{- if lt $minutes 1 }}{{ $minutes = 1 }}{{ end }}
+{{- return $minutes -}}

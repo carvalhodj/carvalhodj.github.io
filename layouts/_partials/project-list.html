@@ -1,0 +1,16 @@
+<ul class="rows">
+  {{- range . }}
+  <li class="row row--project">
+    <span class="row-meta">{{ .Params.year }}</span>
+    <div class="row-body">
+      <a class="row-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{- with .RawSummary }}
+      <p class="row-desc">{{ . }}</p>
+      {{- end }}
+    </div>
+    {{- with .Params.stack }}
+    <span class="row-aside">{{ delimit . " · " }}</span>
+    {{- end }}
+  </li>
+  {{- end }}
+</ul>

@@ -1,0 +1,162 @@
+// Inline code
+:not(pre) > code {
+  padding: 0.12em 0.38em;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-code);
+  color: var(--fg);
+  font-size: 0.86em;
+  overflow-wrap: break-word;
+}
+
+// Code blocks: a terminal window with a bitmap title bar.
+div.highlight {
+  position: relative;
+  margin-inline: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-code);
+  box-shadow: var(--glow-box);
+  overflow: hidden;
+
+  .prose & {
+    margin-block: 1.75rem;
+  }
+
+  // Bleed slightly on wide screens for longer lines.
+  @media (min-width: 52rem) {
+    .prose & {
+      margin-inline: -1rem;
+    }
+  }
+}
+
+.code-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-bios);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.code-lang::before {
+  content: "■ ";
+  color: var(--accent);
+  text-shadow: var(--glow-pink);
+}
+
+.code-copy {
+  padding: 0.15rem 0.4rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+
+  &::before { content: "["; }
+  &::after { content: "]"; }
+
+  &:hover,
+  &[data-copied] {
+    color: var(--accent-2);
+    text-shadow: var(--glow-blue);
+  }
+}
+
+.highlight pre {
+  margin: 0;
+  padding: 1rem 1.1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  tab-size: 2;
+  background: transparent;
+  color: var(--fg);
+}
+
+.highlight pre code {
+  font-size: inherit;
+}
+
+// Chroma with line numbers (```go {linenos=table}).
+.highlight .lntable {
+  width: 100%;
+  border-spacing: 0;
+  display: table; // .prose makes tables blocks for scrolling; this one scrolls in its <pre>
+  font-size: inherit;
+
+  td {
+    padding: 0;
+    border: 0;
+    vertical-align: top;
+  }
+
+  .lntd:last-child {
+    width: 100%;
+  }
+
+  .lntd:first-child pre {
+    padding-right: 0;
+  }
+}
+
+.highlight .ln,
+.highlight .lnt {
+  margin-right: 0.9rem;
+  color: var(--muted);
+  opacity: 0.6;
+  user-select: none;
+}
+
+// Lines picked with {hl_lines=[2,3]}.
+.highlight .hl {
+  display: block;
+  background: var(--bg-soft);
+}
+
+// ---------------------------------------------------------------------------
+// Chroma tokens
+// ---------------------------------------------------------------------------
+.highlight {
+  .c, .ch, .cd, .cm, .cpf, .c1, .cs { color: var(--syn-comment); font-style: italic; }
+  .cp { color: var(--syn-keyword); }
+
+  .k, .kd, .kn, .kp, .kr, .kv { color: var(--syn-keyword); }
+  .kc { color: var(--syn-number); }
+  .kt { color: var(--syn-type); }
+
+  .s, .sa, .sb, .sc, .dl, .sd, .s2, .sh, .sx, .s1 { color: var(--syn-string); }
+  .se, .si, .sr, .ss { color: var(--syn-builtin); }
+
+  .m, .mb, .mf, .mh, .mi, .il, .mo, .mx { color: var(--syn-number); }
+
+  .nf, .fm { color: var(--syn-function); }
+  .nc, .nn, .ne { color: var(--syn-type); }
+  .nb, .bp { color: var(--syn-builtin); }
+  .na { color: var(--syn-attr); }
+  .nt { color: var(--syn-tag); }
+  .no { color: var(--syn-number); }
+  .nd { color: var(--syn-attr); }
+  .nv, .vc, .vg, .vi, .vm { color: var(--fg); }
+  .nl { color: var(--syn-function); }
+
+  .o, .ow { color: var(--syn-operator); }
+  .p, .pi { color: var(--syn-punct); }
+
+  .gi { color: var(--syn-inserted); }
+  .gd { color: var(--syn-deleted); }
+  .gh, .gu { color: var(--syn-function); font-weight: 500; }
+  .ge { font-style: italic; }
+  .gs { font-weight: 600; }
+  .gp { color: var(--ps1); user-select: none; }
+  .go { color: var(--muted); }
+  .err { color: var(--syn-deleted); }
+}
