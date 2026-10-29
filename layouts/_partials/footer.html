@@ -1,0 +1,13 @@
+{{- $opts := partial "options.html" . -}}
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <p class="eof" aria-hidden="true">EOF</p>
+      {{ partial "social.html" (dict "feed" true) }}
+      <p class="colophon">
+        &copy; {{ now.Year }} {{ $opts.author }}.
+        {{ T "set_in" }} <span data-label="font-name"></span> &amp; Fira Code.
+      </p>
+    </div>
+  </div>
+</footer>

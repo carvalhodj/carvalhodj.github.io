@@ -1,0 +1,12 @@
+{{- /* Interface strings retro.js needs, from the `js_*` keys in i18n/. */ -}}
+{{- $keys := slice
+  "theme_to_dark" "theme_to_light" "typeface" "prompt_font" "font_label"
+  "copy" "copied" "copy_label"
+  "search_title" "search_failed" "search_loading" "search_hint" "search_none"
+  "type_post" "type_project" "type_page"
+  "contact_sent" "contact_not_configured" "contact_captcha" "contact_sending" "contact_failed" }}
+{{- $strings := dict }}
+{{- range $key := $keys }}
+  {{- with T (printf "js_%s" $key) }}{{ $strings = merge $strings (dict $key .) }}{{ end }}
+{{- end }}
+{{- return $strings -}}

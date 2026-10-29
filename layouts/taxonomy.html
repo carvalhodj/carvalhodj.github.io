@@ -1,0 +1,31 @@
+{{ define "main" }}
+<section class="page">
+  <header class="page-header">
+    <h1 class="page-title">{{ .Title | default "Tags" }}</h1>
+    {{- with .Description }}
+    <p class="page-lede">{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{ .Content }}
+
+  {{- $posts := where site.RegularPages "Section" "blog" }}
+  {{- $terms := .Data.Terms.Alphabetical }}
+  <nav class="tag-cloud" aria-label="{{ T "filter_by_tag" }}">
+    <a class="tag-chip" href="#all">{{ T "all" }} <span class="tag-count">{{ len $posts }}</span></a>
+    {{- range $terms }}
+    <a class="tag-chip" href="#{{ path.Base .Page.RelPermalink }}">#{{ .Page.LinkTitle }} <span class="tag-count">{{ .Count }}</span></a>
+    {{- end }}
+  </nav>
+
+  {{- /* With a #tag in the URL, CSS hides every other section. */}}
+  <div class="tag-sections">
+    {{- range $terms }}
+    <section class="section section--tight tag-section" id="{{ path.Base .Page.RelPermalink }}">
+      {{ partial "section-head.html" (dict "title" (printf "#%s" .Page.LinkTitle)) }}
+      {{ partial "post-list.html" .Pages }}
+    </section>
+    {{- end }}
+  </div>
+</section>
+{{ end }}

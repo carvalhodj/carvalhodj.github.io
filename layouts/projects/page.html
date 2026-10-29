@@ -1,0 +1,37 @@
+{{ define "main" }}
+<article class="project">
+  <header class="page-header">
+    <p class="kicker"><a href="{{ partial "section-url.html" "projects" }}"><span aria-hidden="true">&larr;</span> {{ T "nav_work" }}</a></p>
+    <h1 class="page-title">{{ .Title }}</h1>
+    {{- with .RawSummary }}
+    <p class="page-lede">{{ . }}</p>
+    {{- end }}
+
+    <dl class="specs">
+      {{- with .Params.year }}
+      <div><dt>{{ T "year" }}</dt><dd>{{ . }}</dd></div>
+      {{- end }}
+      {{- with .Params.role }}
+      <div><dt>{{ T "role" }}</dt><dd>{{ . }}</dd></div>
+      {{- end }}
+      {{- with .Params.stack }}
+      <div><dt>{{ T "stack" }}</dt><dd>{{ delimit . ", " }}</dd></div>
+      {{- end }}
+      {{- with .Params.links }}
+      <div>
+        <dt>{{ T "links" }}</dt>
+        <dd>
+          {{- range $i, $link := . }}
+          {{- if $i }}, {{ end }}<a href="{{ $link.url }}">{{ $link.name }}</a>
+          {{- end }}
+        </dd>
+      </div>
+      {{- end }}
+    </dl>
+  </header>
+
+  <div class="prose">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

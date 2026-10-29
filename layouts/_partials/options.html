@@ -1,0 +1,23 @@
+{{- /*
+  Theme options from `params.retro` in hugo.toml, with their defaults, so
+  templates never trip over a missing key. Toggles are on unless set to false.
+*/ -}}
+{{- $r := site.Params.retro | default dict }}
+{{- $p := $r.prompt | default dict }}
+{{- $author := site.Params.author | default dict }}
+{{- $user := $p.user }}
+{{- if not $user }}{{ $user = site.Title | default "user" | urlize }}{{ end }}
+{{- return dict
+  "default_font" ($r.default_font | default "plex")
+  "font_toggle" (ne $r.font_toggle false)
+  "scanlines" (ne $r.scanlines false)
+  "search" (ne $r.search false)
+  "back_to_top" (ne $r.back_to_top false)
+  "auto_language" (ne $r.auto_language false)
+  "cursor" ($r.cursor | default "column")
+  "prompt_user" $user
+  "prompt_host" ($p.host | default "")
+  "prompt_font" ($p.font | default "fira")
+  "prompt_font_toggle" (ne $p.font_toggle false)
+  "author" ($author.name | default site.Title)
+-}}

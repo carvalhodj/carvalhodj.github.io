@@ -1,0 +1,30 @@
+{{- $opts := partial "options.html" . -}}
+<script>
+  /* Runs before first paint so the page never flashes the wrong theme or font. */
+  (function () {
+    var root = document.documentElement, theme = null, font = null, promptFont = null;
+    try {
+      theme = localStorage.getItem("retro:theme");
+      font = localStorage.getItem("retro:font");
+      promptFont = localStorage.getItem("retro:prompt-font");
+    } catch (e) {}
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    {{- if not $opts.font_toggle }}
+    font = null;
+    {{- end }}
+    if (["plex", "helvetica", "inter", "dm-sans", "miranda"].indexOf(font) === -1) {
+      font = {{ $opts.default_font }};
+    }
+    {{- if not $opts.prompt_font_toggle }}
+    promptFont = null;
+    {{- end }}
+    if (promptFont !== "fira" && promptFont !== "bios") {
+      promptFont = {{ $opts.prompt_font }};
+    }
+    root.setAttribute("data-theme", theme);
+    root.setAttribute("data-font", font);
+    root.setAttribute("data-prompt-font", promptFont);
+  })();
+</script>

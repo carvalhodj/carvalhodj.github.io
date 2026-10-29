@@ -1,0 +1,657 @@
+// ---------------------------------------------------------------------------
+// Terminal details
+// ---------------------------------------------------------------------------
+.ps1 {
+  color: var(--ps1);
+  text-shadow: var(--glow-blue);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.15em;
+  background: var(--cursor);
+  box-shadow: var(--glow-pink);
+  animation: blink 1.1s steps(1, end) infinite;
+}
+
+// Styles chosen with `params.retro.cursor` in hugo.toml. `column` is the default above.
+.cursor--bar {
+  width: 0.14em;
+  margin-left: 0.2em;
+}
+
+.cursor--underscore {
+  height: 0.14em;
+  align-self: flex-end;
+  margin-bottom: 0.08em;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.prompt-line {
+  font-family: var(--font-bios);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+// Small bitmap labels: dates, years, metadata.
+.row-meta,
+.meta,
+.kicker,
+.section-title,
+.section-link,
+.specs dt,
+.pager-label {
+  font-family: var(--font-bios);
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+// ---------------------------------------------------------------------------
+// Toggles
+// ---------------------------------------------------------------------------
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 1.875rem;
+  padding: 0 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+
+  &:hover {
+    color: var(--fg);
+    border-color: var(--accent);
+    box-shadow: var(--glow-pink);
+  }
+}
+
+.toggle-glyph {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.toggle-glyph--mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: -0.05em;
+}
+
+// Icon-only toggle: a square button.
+.toggle--icon {
+  justify-content: center;
+  width: 1.875rem;
+  padding: 0;
+}
+
+// Language switcher: the flag of the language it links to.
+.lang-switch {
+  text-decoration: none;
+
+  .toggle-value {
+    min-width: 0;
+  }
+}
+
+.flag {
+  display: block;
+  width: 1.15rem;
+  height: 0.8rem;
+  border-radius: 2px;
+  outline: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
+  outline-offset: -1px;
+}
+
+.flag--text {
+  width: auto;
+  height: auto;
+  outline: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+// Shows the current theme: moon in dark mode, sun in light mode.
+.theme-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.theme-icon--moon,
+[data-theme="dark"] .theme-icon--sun {
+  display: none;
+}
+
+[data-theme="dark"] .theme-icon--moon {
+  display: block;
+}
+
+// Without JavaScript the theme follows the OS.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-icon--sun { display: none; }
+  :root:not([data-theme]) .theme-icon--moon { display: block; }
+}
+
+.toggle-value {
+  min-width: 5ch;
+  font-family: var(--font-bios);
+  font-size: 0.625rem;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+// Labels come from CSS so they are right on first paint.
+[data-label="prompt-font"]::after { content: "fira"; }
+[data-prompt-font="bios"] [data-label="prompt-font"]::after { content: "bios"; }
+[data-label="font"]::after { content: "plex"; }
+[data-font="helvetica"] [data-label="font"]::after { content: "helv"; }
+[data-font="inter"] [data-label="font"]::after { content: "inter"; }
+[data-font="dm-sans"] [data-label="font"]::after { content: "dm"; }
+[data-font="miranda"] [data-label="font"]::after { content: "mira"; }
+[data-label="font-name"]::after { content: "IBM Plex Sans"; }
+[data-font="helvetica"] [data-label="font-name"]::after { content: "Helvetica"; }
+[data-font="inter"] [data-label="font-name"]::after { content: "Inter"; }
+[data-font="dm-sans"] [data-label="font-name"]::after { content: "DM Sans"; }
+[data-font="miranda"] [data-label="font-name"]::after { content: "Miranda Sans"; }
+
+// ---------------------------------------------------------------------------
+// Links
+// ---------------------------------------------------------------------------
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+
+  a {
+    color: var(--fg-soft);
+    transition: color 0.15s var(--ease), text-shadow 0.15s var(--ease);
+
+    &::before { content: "["; color: var(--muted); }
+    &::after { content: "]"; color: var(--muted); }
+
+    &:hover {
+      color: var(--link);
+      text-shadow: var(--glow-pink);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Hero
+// ---------------------------------------------------------------------------
+.hero {
+  display: grid;
+  gap: 1.1rem;
+  margin-bottom: clamp(3.5rem, 10vw, 6rem);
+}
+
+.hero-title {
+  font-size: clamp(2.25rem, 6vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.hero-role {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  text-shadow: var(--glow-pink);
+  margin-top: -0.25rem;
+}
+
+.hero-intro {
+  max-width: 36rem;
+  color: var(--fg-soft);
+  font-size: 1.125rem;
+
+  p + p {
+    margin-top: 1em;
+  }
+
+  a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.2em;
+  }
+}
+
+.hero .social {
+  margin-top: 0.4rem;
+}
+
+// ---------------------------------------------------------------------------
+// Sections & rows
+// ---------------------------------------------------------------------------
+.section + .section {
+  margin-top: 4rem;
+}
+
+.section--tight + .section--tight {
+  margin-top: 2.75rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.leader {
+  flex: 1;
+  border-bottom: 1px dotted var(--line-strong);
+  transform: translateY(-0.2em);
+}
+
+.section-link {
+  color: var(--muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.15s var(--ease), text-shadow 0.15s var(--ease);
+
+  &:hover {
+    color: var(--link);
+    text-shadow: var(--glow-pink);
+  }
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr auto;
+  gap: 0.25rem 1.25rem;
+  align-items: baseline;
+  padding-block: 0.85rem;
+  border-bottom: 1px solid var(--line);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.row-meta {
+  color: var(--muted);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.row-title {
+  color: var(--fg);
+  font-weight: 500;
+  transition: color 0.15s var(--ease), text-shadow 0.15s var(--ease);
+
+  &:hover {
+    color: var(--link);
+    text-shadow: var(--glow-pink);
+  }
+
+  // Make the whole row clickable.
+  .row--post &::after,
+  .row--project &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+}
+
+.row--post,
+.row--project {
+  position: relative;
+}
+
+.row-desc {
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.row-aside {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 36rem) {
+  .row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .row-meta {
+    grid-column: 1 / -1;
+  }
+
+  .row--project .row-aside {
+    grid-column: 1 / -1;
+    white-space: normal;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Page / post headers
+// ---------------------------------------------------------------------------
+.page-header {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 2.75rem;
+}
+
+.page-title {
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.page-lede {
+  color: var(--fg-soft);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+}
+
+.kicker a {
+  color: var(--muted);
+  text-transform: uppercase;
+  transition: color 0.15s var(--ease);
+
+  &:hover {
+    color: var(--link);
+  }
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.tag {
+  color: var(--accent-3);
+  text-transform: none;
+  transition: text-shadow 0.15s var(--ease);
+}
+
+a.tag:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  text-shadow: var(--glow-pink);
+}
+
+// ---------------------------------------------------------------------------
+// Tags page
+// ---------------------------------------------------------------------------
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--fg-soft);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+
+  &:hover,
+  &[aria-current] {
+    color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: var(--glow-pink);
+  }
+}
+
+.tag-count {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+// Selecting a tag (/tags/#name) shows only that tag's posts.
+.tag-sections:has(.tag-section:target) .tag-section:not(:target) {
+  display: none;
+}
+
+.tag-section {
+  // Jumping to /tags/#name would scroll the chips out of view. This margin
+  // pushes the scroll target above the page top, so the page stays put.
+  scroll-margin-top: 100vh;
+
+  .section-title {
+    text-transform: none;
+  }
+}
+
+.specs {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px dotted var(--line-strong);
+
+  div {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  dt {
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  a {
+    color: var(--link);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Experience timeline
+// ---------------------------------------------------------------------------
+.timeline {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 0.25rem 1.25rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid var(--line);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  .row-meta {
+    padding-top: 0.2rem;
+  }
+
+  @media (max-width: 36rem) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.prose .timeline-role,
+.timeline-role {
+  margin: 0;
+  font-weight: 500;
+}
+
+.timeline-at {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.prose .timeline-summary,
+.timeline-summary {
+  margin: 0.2rem 0 0;
+  color: var(--fg-soft);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+// ---------------------------------------------------------------------------
+// Pager
+// ---------------------------------------------------------------------------
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.pager-link {
+  display: grid;
+  gap: 0.2rem;
+  color: var(--fg);
+
+  &:hover .pager-title {
+    color: var(--link);
+    text-shadow: var(--glow-pink);
+  }
+}
+
+.pager-link--next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.pager-label {
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.pager-title {
+  font-weight: 500;
+  transition: color 0.15s var(--ease), text-shadow 0.15s var(--ease);
+}
+
+// ---------------------------------------------------------------------------
+// 404 — BIOS-style error screen
+// ---------------------------------------------------------------------------
+.bios-screen {
+  display: grid;
+  gap: 1.4rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg-code);
+  box-shadow: var(--glow-box);
+  font-family: var(--font-bios);
+  font-size: 0.75rem;
+  line-height: 1.9;
+  color: var(--fg-soft);
+
+  h1 {
+    font: inherit;
+    font-size: 1rem;
+    color: var(--accent);
+    text-shadow: var(--glow-pink);
+    letter-spacing: 0.02em;
+  }
+
+  code {
+    font-family: var(--font-bios);
+    color: var(--accent-2);
+    word-break: break-all;
+  }
+
+  a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-thickness: 0.14em;
+    text-underline-offset: 0.3em;
+  }
+
+  // Sit the underscore cursor on the link's underline, as if continuing it.
+  a + .cursor--underscore {
+    margin-bottom: 0;
+    vertical-align: -0.44em;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Back to top
+// ---------------------------------------------------------------------------
+// Hidden until retro.js adds .is-visible after scrolling down a screen.
+.back-to-top {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 1.5rem;
+  z-index: 40;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(0.5rem);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s,
+    color 0.15s var(--ease), border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+.back-to-top-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+}

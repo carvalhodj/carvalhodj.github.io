@@ -1,0 +1,74 @@
+{{- /*
+  Sends visitors to the page in their language before anything renders.
+  A language picked with the header flag (retro:lang) wins. Otherwise the
+  visitor's country is guessed, first from the time zone (Brazil only), then
+  from the browser language's region, and matched against each language's
+  `regions` param; everyone else gets the `fallback` language (or the
+  default). It only redirects when the page has a translation (an hreflang
+  link above), and never for crawlers, so search engines index every language.
+
+  On the 404 page the missing address decides first: /en/anything gets the
+  English 404. The host serves one 404 for every missing URL, so the address
+  travels along as ?path= and is put back.
+*/ -}}
+{{- $opts := partial "options.html" . }}
+{{- $notFound := eq .Kind "404" }}
+{{- if and (gt (len hugo.Sites) 1) (or $opts.auto_language $notFound) }}
+{{- $root := (urls.Parse site.BaseURL).Path | default "/" }}
+{{- $prefixed := slice }}
+{{- $regions := slice }}
+{{- $fallback := partial "lang-code.html" hugo.Sites.Default.Language }}
+{{- range hugo.Sites }}
+  {{- $code := partial "lang-code.html" .Language }}
+  {{- if ne .Home.RelPermalink $root }}{{ $prefixed = $prefixed | append (dict "code" $code "home" .Home.RelPermalink) }}{{ end }}
+  {{- with .Params.regions }}{{ $regions = $regions | append (dict "code" $code "regions" .) }}{{ end }}
+  {{- if .Params.fallback }}{{ $fallback = $code }}{{ end }}
+{{- end }}
+<script>
+  (function () {
+    if (/bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent) || navigator.webdriver) return;
+    var current = document.documentElement.lang, target = null;
+    {{- if $notFound }}
+    var languages = {{ $prefixed }};
+    var path = window.location.pathname;
+    languages.forEach(function (lang) {
+      if (path.indexOf(lang.home) === 0) target = lang.code;
+    });
+    {{- end }}
+    {{- if $opts.auto_language }}
+    if (!target) {
+      try { target = localStorage.getItem("retro:lang"); } catch (e) {}
+    }
+    if (!target) {
+      var regions = {{ $regions }};
+      var zone = "";
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+      var brazil = /^America\/(Sao_Paulo|Rio_Branco|Manaus|Cuiaba|Campo_Grande|Porto_Velho|Boa_Vista|Belem|Fortaleza|Recife|Maceio|Bahia|Araguaina|Santarem|Noronha|Eirunepe)$|^Brazil\//;
+      var country = brazil.test(zone) ? "BR" : "";
+      if (!country) {
+        (navigator.languages || [navigator.language]).some(function (tag) {
+          var match = /^[a-z]{2,3}-([A-Z]{2})\b/i.exec(tag || "");
+          if (match) country = match[1].toUpperCase();
+          return !!match;
+        });
+      }
+      target = {{ $fallback }};
+      regions.forEach(function (lang) {
+        if (lang.regions.indexOf(country) !== -1) target = lang.code;
+      });
+    }
+    {{- end }}
+    if (!target || target === current) return;
+    var alt = document.querySelector('link[rel="alternate"][hreflang="' + target + '"]');
+    if (!alt) return;
+    // Keep the current host, so local previews don't jump to the live site.
+    var url = new URL(alt.href).pathname;
+    {{- if $notFound }}
+    url += "?path=" + encodeURIComponent(path + window.location.search);
+    {{- else }}
+    url += window.location.search;
+    {{- end }}
+    window.location.replace(url + window.location.hash);
+  })();
+</script>
+{{- end }}

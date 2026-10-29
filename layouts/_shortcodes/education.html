@@ -1,0 +1,17 @@
+{{- /* Education from data/education.yml, or data/<lang>/education.yml for other languages. */ -}}
+{{- $courses := hugo.Data.education }}
+{{- with index hugo.Data site.Language.Lang }}{{ with .education }}{{ $courses = . }}{{ end }}{{ end }}
+<ol class="timeline">
+  {{- range $courses }}
+  <li class="timeline-item">
+    <span class="row-meta">{{ .period }}</span>
+    <div>
+      <p class="timeline-role">{{ .course }}</p>
+      <p class="timeline-place">{{ .place }}</p>
+      {{- with .summary }}
+      <p class="timeline-summary">{{ . }}</p>
+      {{- end }}
+    </div>
+  </li>
+  {{- end }}
+</ol>

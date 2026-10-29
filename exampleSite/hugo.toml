@@ -1,0 +1,116 @@
+# ---------------------------------------------------------------------------
+# Site
+# ---------------------------------------------------------------------------
+baseURL = "https://carvalhodj.github.io/"
+title = "Daniel Carvalho"
+defaultContentLanguage = "pt-br"   # served from the site root
+capitalizeListTitles = false        # show tags as written (#reliability)
+
+# The theme is the repository this exampleSite lives in.
+[module]
+  replacements = "retro-theme -> ../.."
+  [[module.imports]]
+    path = "retro-theme"
+
+[params]
+  description = """Software engineer. I build distributed systems and developer tools, \
+    and write about the craft of making software that lasts."""
+
+  [params.author]
+    name = "Daniel Carvalho"
+
+  # Links rendered as [name] in the hero and footer, and listed on /contact/.
+  # `handle` is the text shown on the contact page (defaults to the URL).
+  [[params.social]]
+    name = "github"
+    handle = "@carvalhodj"
+    url = "https://github.com/carvalhodj"
+  [[params.social]]
+    name = "codeberg"
+    handle = "@carvalhodj"
+    url = "https://codeberg.org/carvalhodj"
+  [[params.social]]
+    name = "linkedin"
+    handle = "in/carvalhodj"
+    url = "https://www.linkedin.com/in/carvalhodj"
+
+  # Contact form, sent by Web3Forms (free plan) with hCaptcha.
+  # Get an access key at https://web3forms.com, then enable hCaptcha for the
+  # form in the Web3Forms dashboard.
+  [params.contact]
+    access_key = "3a0be323-a7ac-42f2-b332-1b7c2017812f"   # public, safe to commit
+    subject = "New message from the website"
+
+  # -------------------------------------------------------------------------
+  # Retro theme options
+  # -------------------------------------------------------------------------
+  [params.retro]
+    default_font = "miranda"     # plex | helvetica | inter | dm-sans | miranda
+    font_toggle = false          # show the typeface switcher in the header
+    scanlines = true             # faint CRT scanlines (dark mode only)
+    search = true                # search button + ⌘K / Ctrl+K / "/" shortcuts
+    back_to_top = true           # floating "back to top" button after scrolling
+    auto_language = true         # Brazil gets Portuguese, everyone else English (until they pick a flag)
+    cursor = "underscore"        # blinking cursor: column (█) | bar (|) | underscore (_)
+
+    [params.retro.prompt]        # header brand: <user>@<host>:~$ <cursor>
+      user = "daniel"
+      host = ""
+      font = "fira"              # fira | bios (IBM BIOS bitmap)
+      font_toggle = false        # show the prompt font switcher in the header
+
+# ---------------------------------------------------------------------------
+# Languages
+# ---------------------------------------------------------------------------
+# The header switcher shows the flag and `label` of each other language.
+# Interface strings live in the theme's i18n/ folder. Remove all
+# but one language to hide the switcher.
+# `regions`: visitors from these countries get this language. `fallback`: the
+# language for visitors from anywhere else.
+[languages.pt-br]
+  locale = "pt-BR"
+  label = "PT"
+  contentDir = "content/pt-br"
+  weight = 1
+  [languages.pt-br.params]
+    flag = "br"
+    regions = ["BR"]
+
+[languages.en]
+  locale = "en"
+  label = "EN"
+  contentDir = "content/en"
+  weight = 2
+  [languages.en.params]
+    flag = "uk"
+    fallback = true
+
+# ---------------------------------------------------------------------------
+# Content & build (required by the theme; Hugo doesn't take these from it)
+# ---------------------------------------------------------------------------
+# The home page also writes the search index (search.json) and the feed
+# (feed.xml), one per language.
+[outputs]
+  home = ["html", "rss", "searchindex"]
+  section = ["html"]
+  taxonomy = ["html"]
+  term = ["html"]
+
+[taxonomies]
+  tag = "tags"
+
+# Posts at /blog/2026/my-post/ (date and slug come from a file named
+# 2026-01-31-my-post.md), projects at /projects/my-project/.
+[permalinks.page]
+  blog = "/blog/:year/:slugorcontentbasename/"
+  projects = "/projects/:slugorcontentbasename/"
+
+[frontmatter]
+  date = [":filename", ":default"]
+
+[markup.goldmark.renderer]
+  unsafe = true      # allow raw HTML in Markdown
+
+# Chroma writes CSS classes; the colors live in the theme's _code.scss.
+[markup.highlight]
+  noClasses = false

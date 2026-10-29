@@ -1,0 +1,22 @@
+{{- $opts := partial "options.html" . -}}
+<!doctype html>
+<html lang="{{ partial "lang-code.html" site.Language }}">
+<head>
+  {{- partial "head.html" . }}
+</head>
+<body{{ if $opts.scanlines }} class="has-scanlines"{{ end }}>
+  <a class="skip-link" href="#main">{{ T "skip_to_content" }}</a>
+  {{ partial "header.html" . }}
+  <main id="main" class="wrap site-main">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  {{- if $opts.back_to_top }}
+  {{ partial "back-to-top.html" . }}
+  {{- end }}
+  {{- if $opts.search }}
+  {{ partial "search.html" . }}
+  {{- end }}
+  <script type="application/json" id="retro-strings">{{ partial "js-strings.html" . | jsonify | safeJS }}</script>
+</body>
+</html>

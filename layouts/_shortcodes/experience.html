@@ -1,0 +1,16 @@
+{{- /* Work history from data/experience.yml, or data/<lang>/experience.yml for other languages. */ -}}
+{{- $jobs := hugo.Data.experience }}
+{{- with index hugo.Data site.Language.Lang }}{{ with .experience }}{{ $jobs = . }}{{ end }}{{ end }}
+<ol class="timeline">
+  {{- range $jobs }}
+  <li class="timeline-item">
+    <span class="row-meta">{{ .period }}</span>
+    <div>
+      <p class="timeline-role">{{ .role }} <span class="timeline-at">@ {{ .company }}</span></p>
+      {{- with .summary }}
+      <p class="timeline-summary">{{ . }}</p>
+      {{- end }}
+    </div>
+  </li>
+  {{- end }}
+</ol>
